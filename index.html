@@ -1,49 +1,148 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#167447">
 <title>Mes Courses</title>
 <style>
-body{font-family:Arial,sans-serif;background:#f2f5f2;margin:0;color:#222}
-header{background:#08783e;color:white;padding:20px;text-align:center}
-main{padding:16px;max-width:600px;margin:auto}
-.card{background:white;padding:16px;border-radius:12px;margin:16px 0}
-input{box-sizing:border-box;width:100%;padding:12px;font-size:16px;margin:8px 0}
-button{background:#08783e;color:white;border:0;border-radius:8px;padding:12px;font-size:16px}
-li{padding:8px 0}
+*{box-sizing:border-box}
+body{margin:0;background:#f3f6f4;color:#202820;font:16px Arial,sans-serif}
+header{background:#167447;color:white;padding:22px 16px}
+header h1{margin:0 0 6px;font-size:26px}
+header p{margin:0;font-size:14px}
+main{max-width:650px;margin:auto;padding:16px}
+.panel{background:white;padding:16px;border-radius:14px;margin-bottom:14px;box-shadow:0 2px 8px #0000000b}
+h2{font-size:18px;margin:0 0 12px}
+input,select,button{font:inherit;padding:12px;border-radius:9px}
+input,select{border:1px solid #ccd5ce;background:white;min-width:0;width:100%}
+button{border:0;background:#167447;color:white;font-weight:bold;cursor:pointer}
+.addgrid{display:grid;grid-template-columns:1fr 100px;gap:8px}
+.addgrid select{grid-column:1}
+.addgrid button{grid-column:2;grid-row:1 / span 2}
+label{display:block;font-size:13px;margin:12px 0 5px;color:#58635b}
+.item{border-bottom:1px solid #e8ece9;padding:12px 0}
+.item:last-child{border:0}
+.itemtop{display:flex;align-items:center;gap:10px}
+.itemtop input[type=checkbox]{width:22px;height:22px;flex-shrink:0}
+.itemname{flex:1;font-weight:bold;overflow-wrap:anywhere}
+.done .itemname{text-decoration:line-through;color:#7c877f}
+.details{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;margin:10px 0 0 32px}
+.details input{padding:9px;font-size:14px}
+.remove{background:#fbe9e7;color:#9c2e24;padding:8px 11px}
+.summary{display:flex;justify-content:space-between;gap:12px;align-items:center}
+.total{font-size:23px;font-weight:bold;color:#167447}
+.muted{font-size:13px;color:#647068}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+.secondary{background:#e6eee8;color:#205d3c}
+.empty{color:#647068;text-align:center;padding:20px 0}
+a{color:#167447}
+@media(max-width:390px){.details{margin-left:0;grid-template-columns:1fr 1fr}.remove{grid-column:1 / -1}.addgrid{grid-template-columns:1fr 90px}}
 </style>
 </head>
 <body>
-<header><h1>🛒 Mes Courses</h1><p>E.Leclerc Drive — Le Mans Nord</p></header>
+<header>
+<h1>🛒 Mes Courses</h1>
+<p>E.Leclerc Drive — Le Mans Nord, Rhin et Danube</p>
+</header>
 <main>
-<div class="card">
-<h2>Ma liste de courses</h2>
-<input id="produit" placeholder="Ex. lait, pâtes, pommes">
-<button onclick="ajouter()">Ajouter</button>
-<ul id="liste"></ul>
+<section class="panel">
+<h2>Ajouter un produit</h2>
+<form id="form">
+<div class="addgrid">
+<input id="name" placeholder="Ex. lait, pâtes, pommes" required>
+<select id="category" aria-label="Rayon">
+<option>Épicerie</option><option>Fruits et légumes</option>
+<option>Viande et poisson</option><option>Produits laitiers</option>
+<option>Boulangerie</option><option>Surgelés</option>
+<option>Boissons</option><option>Hygiène</option>
+<option>Entretien</option><option>Autre</option>
+</select>
+<button type="submit">Ajouter</button>
 </div>
-<div class="card">
+</form>
+</section>
+
+<section class="panel">
+<div class="summary">
+<h2>Ma liste</h2>
+<span id="count" class="muted">0 article</span>
+</div>
+<div id="items"><p class="empty">Ta liste est vide.</p></div>
+<div class="summary" style="margin-top:14px">
+<div>
+<div class="muted">Total estimé des articles non cochés</div>
+<div class="total" id="total">0,00 €</div>
+</div>
+</div>
+<p class="muted">Renseigne les prix unitaires pour calculer le total. Ces prix ne sont pas récupérés automatiquement du catalogue E.Leclerc.</p>
+<div class="actions">
+<button type="button" id="clearDone" class="secondary">Supprimer les articles cochés</button>
+<button type="button" id="clearAll" class="secondary">Vider la liste</button>
+</div>
+</section>
+
+<section class="panel">
 <h2>Mon Drive</h2>
-<p>Le catalogue réel et les prix du magasin seront connectés dans une prochaine étape.</p>
-<button onclick="window.open('https://www.leclercdrive.fr/','_blank')">Ouvrir E.Leclerc Drive</button>
-</div>
+<p class="muted">Ouvre le site E.Leclerc Drive et vérifie que ton magasin habituel est sélectionné.</p>
+<a href="https://www.leclercdrive.fr/" target="_blank" rel="noopener">Ouvrir E.Leclerc Drive ↗</a>
+</section>
 </main>
 <script>
-function ajouter(){
-const champ=document.getElementById('produit');
-const nom=champ.value.trim();
-if(!nom)return;
-const li=document.createElement('li');
-li.textContent=nom+' ';
-const b=document.createElement('button');
-b.textContent='Supprimer';
-b.onclick=()=>li.remove();
-li.appendChild(b);
-document.getElementById('liste').appendChild(li);
-champ.value='';
+const KEY = "mesCoursesLeclercV2";
+let products = [];
+try { products = JSON.parse(localStorage.getItem(KEY) || "[]"); } catch(e) {}
+const $ = id => document.getElementById(id);
+const money = n => n.toLocaleString("fr-FR",{style:"currency",currency:"EUR"});
+function save(){ localStorage.setItem(KEY,JSON.stringify(products)); render(); }
+function render(){
+ const root=$("items");
+ root.innerHTML="";
+ if(!products.length) root.innerHTML='<p class="empty">Ta liste est vide.</p>';
+ products.forEach((p,i)=>{
+  const el=document.createElement("div");
+  el.className="item"+(p.done?" done":"");
+  el.innerHTML=`
+   <div class="itemtop">
+    <input type="checkbox" aria-label="Article acheté" ${p.done?"checked":""}>
+    <span class="itemname"></span>
+    <button class="remove" type="button" aria-label="Supprimer">✕</button>
+   </div>
+   <div class="muted" style="margin:5px 0 0 32px"></div>
+   <div class="details">
+    <input type="number" min="1" step="1" value="${p.qty}" aria-label="Quantité">
+    <input type="number" min="0" step="0.01" value="${p.price ?? ""}" placeholder="Prix unité €" aria-label="Prix unitaire">
+    <span style="align-self:center;font-size:13px;white-space:nowrap"></span>
+   </div>`;
+  el.querySelector(".itemname").textContent=p.name;
+  el.querySelector(".muted").textContent=p.category;
+  const inputs=el.querySelectorAll("input");
+  inputs[0].addEventListener("change",e=>{p.done=e.target.checked;save();});
+  inputs[1].addEventListener("change",e=>{p.qty=Math.max(1,parseInt(e.target.value)||1);save();});
+  inputs[2].addEventListener("change",e=>{p.price=e.target.value===""?null:Math.max(0,Number(e.target.value)||0);save();});
+  el.querySelector(".remove").addEventListener("click",()=>{products.splice(i,1);save();});
+  const line=el.querySelector(".details span");
+  line.textContent=p.price==null?"—":money(p.qty*p.price);
+  root.appendChild(el);
+ });
+ $("count").textContent=products.length+" article"+(products.length>1?"s":"");
+ const total=products.filter(p=>!p.done&&p.price!=null).reduce((s,p)=>s+p.qty*p.price,0);
+ $("total").textContent=money(total);
 }
+$("form").addEventListener("submit",e=>{
+ e.preventDefault();
+ const name=$("name").value.trim();
+ if(!name)return;
+ products.push({name,category:$("category").value,qty:1,price:null,done:false});
+ $("name").value="";
+ save();
+});
+$("clearDone").addEventListener("click",()=>{products=products.filter(p=>!p.done);save();});
+$("clearAll").addEventListener("click",()=>{
+ if(confirm("Vider toute la liste ?")){products=[];save();}
+});
+render();
 </script>
 </body>
 </html>
-
