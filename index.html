@@ -4,10 +4,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#176b3a">
 <title>Mes Courses Leclerc</title>
 <style>
-:root{--green:#176b3a;--pale:#eaf5ed;--ink:#1c2921;--muted:#627067;--line:#dce5de;--bg:#f5f8f5;--white:#fff;--orange:#fff1d8}
+:root{--green:#176b3a;--pale:#eaf5ed;--ink:#1c2921;--muted:#627067;--line:#dce5de;--bg:#f5f8f5}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 system-ui,sans-serif}
 header{background:var(--green);color:white;padding:20px 16px}
@@ -40,7 +39,7 @@ button,.button{border:0;border-radius:10px;padding:11px 13px;font:inherit;font-w
 .qty,.muted{font-size:13px;color:var(--muted)}
 .price{padding:7px;font-size:14px}
 .group-title{font-size:14px;color:var(--green);font-weight:800;margin:14px 0 3px}
-.note{background:var(--orange);padding:10px 12px;border-radius:10px;font-size:13px}
+.note{background:#fff1d8;padding:10px 12px;border-radius:10px;font-size:13px}
 footer{text-align:center;color:var(--muted);font-size:12px;padding:20px}
 @media(max-width:460px){.stats{grid-template-columns:repeat(2,1fr)}.item{grid-template-columns:24px minmax(0,1fr) 78px}.stat b{font-size:16px}}
 </style>
@@ -72,7 +71,7 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:20px}
 
 <section class="card">
 <h2>2. Menus de la semaine</h2>
-<p class="muted">Modifie un repas : la liste de courses se met à jour.</p>
+<p class="muted">Choisis parmi les recettes proposées : la liste de courses se met à jour.</p>
 <div id="menus"></div>
 </section>
 
@@ -89,14 +88,14 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:20px}
 
 <section class="card">
 <h2>4. Liste de courses</h2>
-<p class="muted">Coche ce que tu as déjà. Le total exclut les produits cochés.</p>
+<p class="muted">Coche les produits que tu as déjà. Le total les exclut.</p>
 <div class="actions">
 <button class="secondary" id="uncheck">Tout décocher</button>
 <button class="secondary" id="copy">📋 Copier la liste</button>
 <button class="secondary" id="csv">Exporter CSV</button>
 </div>
 <div id="shopping"></div>
-<p class="note">Le total est une estimation par référence produit. Il ne calcule pas encore le nombre exact de paquets à acheter. Corrige les prix avec ceux du Drive lorsque tu les connais.</p>
+<p class="note">Les prix sont indicatifs. Le total additionne un prix par référence et ne calcule pas encore le nombre exact de paquets nécessaires.</p>
 </section>
 
 <section class="card">
@@ -112,22 +111,42 @@ footer{text-align:center;color:var(--muted);font-size:12px;padding:20px}
 const STORE_KEY='mesCoursesSmartV2';
 
 const recipes={
-chicken:{name:'Poulet, riz et légumes',type:'dinner',ingredients:{Poulet:160,Riz:70,Carottes:100,Courgettes:100,Oignon:25}},
-lentils:{name:'Dahl de lentilles et riz',type:'dinner',ingredients:{'Lentilles corail':90,Riz:60,'Lait de coco':60,'Tomates concassées':100,Oignon:30,'Épinards surgelés':80}},
-bolognese:{name:'Pâtes bolognaise maison',type:'dinner',ingredients:{Pâtes:90,'Bœuf haché 5%':100,'Tomates concassées':120,Carottes:50,Oignon:25}},
-gratin:{name:'Gratin pommes de terre, légumes et dinde',type:'dinner',ingredients:{'Pommes de terre':220,Dinde:130,'Brocoli surgelé':100,'Crème légère':40,'Fromage râpé':25}},
-tuna:{name:'Salade de riz, thon et pois chiches',type:'lunch',ingredients:{Riz:75,'Thon en boîte':80,'Pois chiches':80,Tomates:100,Concombre:80}},
-omelette:{name:'Omelette, salade et pain complet',type:'dinner',ingredients:{Œufs:2,Salade:80,'Pain complet':70,Champignons:80}},
-soup:{name:'Soupe de légumes et tartines',type:'dinner',ingredients:{'Pommes de terre':100,Carottes:100,Poireaux:100,Oignon:25,'Pain complet':80,'Fromage frais':30}},
-wrap:{name:'Wrap poulet crudités',type:'lunch',ingredients:{Tortillas:2,Poulet:100,Salade:40,Tomates:80,'Yaourt nature':30}},
-pastaSalad:{name:'Salade de pâtes au thon',type:'lunch',ingredients:{Pâtes:80,'Thon en boîte':80,'Maïs en boîte':50,Tomates:100,Concombre:80}},
-chickpea:{name:'Curry pois chiches et légumes',type:'dinner',ingredients:{'Pois chiches':150,Riz:60,'Lait de coco':60,'Tomates concassées':100,'Épinards surgelés':80,Oignon:30}},
-fish:{name:'Poisson, pommes de terre et haricots verts',type:'dinner',ingredients:{'Poisson surgelé':160,'Pommes de terre':220,'Haricots verts surgelés':150,Citron:20}},
-turkey:{name:'Émincé de dinde, semoule et légumes',type:'dinner',ingredients:{Dinde:150,Semoule:70,Courgettes:100,Carottes:100,Oignon:25}},
-quiche:{name:'Quiche légumes et salade',type:'dinner',ingredients:{'Pâte brisée':0.25,Œufs:1,'Crème légère':40,'Fromage râpé':20,Poireaux:100,Salade:60}},
-beanSalad:{name:'Salade pois chiches et œufs',type:'lunch',ingredients:{'Pois chiches':120,Œufs:1,Tomates:100,Concombre:80,Salade:40,'Pain complet':50}},
-tofu:{name:'Tofu, riz et légumes sautés',type:'dinner',ingredients:{Tofu:150,Riz:70,Carottes:100,Courgettes:100,'Sauce soja':15}},
-veggiePasta:{name:'Pâtes aux légumes et lentilles',type:'dinner',ingredients:{Pâtes:80,'Lentilles corail':60,'Tomates concassées':120,Courgettes:100,Oignon:25}}
+chicken:{name:'Poulet, riz et légumes',type:'dinner',ingredients:{'Poulet':160,'Riz':70,'Carottes':100,'Courgettes':100,'Oignon':25}},
+lentils:{name:'Dahl de lentilles et riz',type:'dinner',ingredients:{'Lentilles corail':90,'Riz':60,'Lait de coco':60,'Tomates concassées':100,'Oignon':30,'Épinards surgelés':80}},
+bolognese:{name:'Pâtes bolognaise maison',type:'dinner',ingredients:{'Pâtes':90,'Bœuf haché 5%':100,'Tomates concassées':120,'Carottes':50,'Oignon':25}},
+gratin:{name:'Gratin pommes de terre, légumes et dinde',type:'dinner',ingredients:{'Pommes de terre':220,'Dinde':130,'Brocoli surgelé':100,'Crème légère':40,'Fromage râpé':25}},
+tuna:{name:'Salade de riz, thon et pois chiches',type:'lunch',ingredients:{'Riz':75,'Thon en boîte':80,'Pois chiches':80,'Tomates':100,'Concombre':80}},
+omelette:{name:'Omelette, salade et pain complet',type:'dinner',ingredients:{'Œufs':2,'Salade':80,'Pain complet':70,'Champignons':80}},
+soup:{name:'Soupe de légumes et tartines',type:'dinner',ingredients:{'Pommes de terre':100,'Carottes':100,'Poireaux':100,'Oignon':25,'Pain complet':80,'Fromage frais':30}},
+wrap:{name:'Wrap poulet crudités',type:'lunch',ingredients:{'Tortillas':2,'Poulet':100,'Salade':40,'Tomates':80,'Yaourt nature':30}},
+pastaSalad:{name:'Salade de pâtes au thon',type:'lunch',ingredients:{'Pâtes':80,'Thon en boîte':80,'Maïs en boîte':50,'Tomates':100,'Concombre':80}},
+chickpea:{name:'Curry pois chiches et légumes',type:'dinner',ingredients:{'Pois chiches':150,'Riz':60,'Lait de coco':60,'Tomates concassées':100,'Épinards surgelés':80,'Oignon':30}},
+fish:{name:'Poisson, pommes de terre et haricots verts',type:'dinner',ingredients:{'Poisson surgelé':160,'Pommes de terre':220,'Haricots verts surgelés':150,'Citron':20}},
+turkey:{name:'Émincé de dinde, semoule et légumes',type:'dinner',ingredients:{'Dinde':150,'Semoule':70,'Courgettes':100,'Carottes':100,'Oignon':25}},
+quiche:{name:'Quiche légumes et salade',type:'dinner',ingredients:{'Pâte brisée':0.25,'Œufs':1,'Crème légère':40,'Fromage râpé':20,'Poireaux':100,'Salade':60}},
+beanSalad:{name:'Salade pois chiches et œufs',type:'lunch',ingredients:{'Pois chiches':120,'Œufs':1,'Tomates':100,'Concombre':80,'Salade':40,'Pain complet':50}},
+tofu:{name:'Tofu, riz et légumes sautés',type:'dinner',ingredients:{'Tofu':150,'Riz':70,'Carottes':100,'Courgettes':100,'Sauce soja':15}},
+veggiePasta:{name:'Pâtes aux légumes et lentilles',type:'dinner',ingredients:{'Pâtes':80,'Lentilles corail':60,'Tomates concassées':120,'Courgettes':100,'Oignon':25}},
+chili:{name:'Chili con carne et riz',type:'dinner',ingredients:{'Bœuf haché 5%':100,'Haricots rouges':100,'Tomates concassées':120,'Riz':60,'Oignon':25,'Poivron':80}},
+porkRoast:{name:'Rôti de porc, pommes de terre et carottes',type:'dinner',ingredients:{'Rôti de porc':170,'Pommes de terre':220,'Carottes':120,'Oignon':25}},
+pizza:{name:'Pizza maison jambon-champignons',type:'dinner',ingredients:{'Pâte à pizza':0.5,'Jambon':50,'Champignons':70,'Tomates concassées':50,'Mozzarella':50,'Salade':60}},
+shepherd:{name:'Parmentier de bœuf et légumes',type:'dinner',ingredients:{'Bœuf haché 5%':100,'Pommes de terre':220,'Carottes':70,'Oignon':25,'Lait':40}},
+couscous:{name:'Couscous poulet et légumes',type:'dinner',ingredients:{'Poulet':130,'Semoule':70,'Carottes':100,'Courgettes':100,'Pois chiches':60,'Bouillon':1}},
+salmon:{name:'Saumon, riz et brocoli',type:'dinner',ingredients:{'Saumon surgelé':150,'Riz':70,'Brocoli surgelé':150,'Citron':15}},
+fajitas:{name:'Fajitas de poulet et poivrons',type:'dinner',ingredients:{'Poulet':130,'Tortillas':2,'Poivron':100,'Oignon':30,'Yaourt nature':30}},
+ratatouille:{name:'Ratatouille et semoule',type:'dinner',ingredients:{'Aubergine':80,'Courgettes':100,'Poivron':80,'Tomates':100,'Semoule':70,'Oignon':25}},
+curryChicken:{name:'Curry de poulet léger et riz',type:'dinner',ingredients:{'Poulet':150,'Riz':70,'Lait de coco':50,'Courgettes':100,'Carottes':80,'Oignon':25}},
+pastaHam:{name:'Pâtes jambon petits pois',type:'dinner',ingredients:{'Pâtes':90,'Jambon':60,'Petits pois surgelés':100,'Crème légère':30,'Fromage râpé':15}},
+eggfriedRice:{name:'Riz sauté aux œufs et légumes',type:'dinner',ingredients:{'Riz':75,'Œufs':2,'Petits pois surgelés':70,'Carottes':70,'Sauce soja':10}},
+beefStirfry:{name:'Bœuf sauté, nouilles et légumes',type:'dinner',ingredients:{'Bœuf émincé':130,'Nouilles':70,'Carottes':70,'Poivron':70,'Sauce soja':15}},
+croque:{name:'Croque-monsieur et salade',type:'dinner',ingredients:{'Pain de mie complet':100,'Jambon':60,'Fromage râpé':30,'Salade':80,'Tomates':80}},
+lentilSalad:{name:'Salade de lentilles, carottes et feta',type:'lunch',ingredients:{'Lentilles en conserve':150,'Carottes':80,'Feta':35,'Salade':40,'Pain complet':40}},
+chickenPastaSalad:{name:'Salade de pâtes au poulet',type:'lunch',ingredients:{'Pâtes':75,'Poulet':90,'Tomates':80,'Concombre':60,'Yaourt nature':25}},
+eggSandwich:{name:'Sandwich œuf et crudités',type:'lunch',ingredients:{'Pain complet':100,'Œufs':1,'Salade':30,'Tomates':60,'Fromage frais':20}},
+bulgurBowl:{name:'Bowl boulgour, pois chiches et légumes',type:'lunch',ingredients:{'Boulgour':70,'Pois chiches':100,'Concombre':60,'Tomates':80,'Feta':25}},
+quinoaTuna:{name:'Salade de quinoa au thon',type:'lunch',ingredients:{'Quinoa':70,'Thon en boîte':70,'Maïs en boîte':40,'Concombre':60,'Tomates':80}},
+hamWrap:{name:'Wrap jambon-fromage et crudités',type:'lunch',ingredients:{'Tortillas':2,'Jambon':60,'Fromage frais':20,'Salade':30,'Carottes':50}},
+beanRice:{name:'Bowl riz, haricots rouges et maïs',type:'lunch',ingredients:{'Riz':70,'Haricots rouges':100,'Maïs en boîte':50,'Tomates':80,'Yaourt nature':20}}
 };
 
 const plans={
@@ -137,32 +156,33 @@ vegetarian:{dinner:['lentils','chickpea','omelette','veggiePasta','gratin','tofu
 };
 
 const groups={
-'Fruits et légumes':['Carottes','Courgettes','Oignon','Épinards surgelés','Tomates','Concombre','Brocoli surgelé','Salade','Champignons','Poireaux','Haricots verts surgelés','Citron'],
-'Viandes, poissons et alternatives':['Poulet','Bœuf haché 5%','Dinde','Poisson surgelé','Thon en boîte','Tofu'],
-'Féculents et conserves':['Riz','Pâtes','Lentilles corail','Pois chiches','Tomates concassées','Maïs en boîte','Semoule','Pommes de terre','Tortillas','Pain complet','Pâte brisée'],
-'Frais et épicerie':['Lait de coco','Crème légère','Fromage râpé','Œufs','Yaourt nature','Fromage frais','Sauce soja']
+'Fruits et légumes':['Carottes','Courgettes','Oignon','Épinards surgelés','Tomates','Concombre','Brocoli surgelé','Salade','Champignons','Poireaux','Haricots verts surgelés','Citron','Poivron','Aubergine','Petits pois surgelés'],
+'Viandes, poissons et alternatives':['Poulet','Bœuf haché 5%','Dinde','Poisson surgelé','Saumon surgelé','Thon en boîte','Tofu','Rôti de porc','Jambon','Bœuf émincé'],
+'Féculents et conserves':['Riz','Pâtes','Lentilles corail','Pois chiches','Tomates concassées','Maïs en boîte','Semoule','Pommes de terre','Tortillas','Pain complet','Pâte brisée','Pâte à pizza','Nouilles','Boulgour','Quinoa','Pain de mie complet','Lentilles en conserve','Haricots rouges'],
+'Frais et épicerie':['Lait de coco','Crème légère','Fromage râpé','Œufs','Yaourt nature','Fromage frais','Sauce soja','Mozzarella','Lait','Bouillon','Feta']
 };
 
 const estimatedPrices={
-Poulet:9.49,Riz:1.50,Carottes:1.49,Courgettes:2.50,Oignon:1.50,
+'Poulet':9.49,'Riz':1.50,'Carottes':1.49,'Courgettes':2.50,'Oignon':1.50,
 'Lentilles corail':2.00,'Lait de coco':1.20,'Tomates concassées':0.80,'Épinards surgelés':1.80,
-Pâtes:0.75,'Bœuf haché 5%':5.50,'Pommes de terre':2.00,Dinde:5.50,
+'Pâtes':0.75,'Bœuf haché 5%':5.50,'Pommes de terre':2.00,'Dinde':5.50,
 'Brocoli surgelé':1.80,'Crème légère':1.30,'Fromage râpé':1.70,'Thon en boîte':1.60,
-'Pois chiches':0.90,Tomates:2.50,Concombre:1.20,Œufs:2.80,Salade:1.40,
-'Pain complet':1.80,Champignons:1.80,Poireaux:2.00,Tortillas:1.70,
+'Pois chiches':0.90,'Tomates':2.50,'Concombre':1.20,'Œufs':2.80,'Salade':1.40,
+'Pain complet':1.80,'Champignons':1.80,'Poireaux':2.00,'Tortillas':1.70,
 'Yaourt nature':1.50,'Maïs en boîte':0.90,'Poisson surgelé':5.00,'Haricots verts surgelés':1.80,
-Citron:0.60,Semoule:1.20,'Pâte brisée':1.30,'Fromage frais':1.50,
-'Sauce soja':1.80,Tofu:2.50
+'Citron':0.60,'Semoule':1.20,'Pâte brisée':1.30,'Fromage frais':1.50,
+'Sauce soja':1.80,'Tofu':2.50,'Haricots rouges':0.90,'Rôti de porc':7.50,
+'Pâte à pizza':1.50,'Jambon':2.50,'Mozzarella':1.20,'Lait':1.20,'Bouillon':1.00,
+'Poivron':2.50,'Aubergine':1.80,'Saumon surgelé':6.50,'Petits pois surgelés':1.70,
+'Bœuf émincé':6.50,'Nouilles':1.50,'Pain de mie complet':1.80,
+'Lentilles en conserve':1.00,'Feta':1.80,'Boulgour':1.80,'Quinoa':3.00
 };
 
 let state={budget:130,days:7,dinners:3,lunches:2,style:'weight',batch:'yes',menus:[],checked:{},prices:{...estimatedPrices}};
 const $=id=>document.getElementById(id);
 
 function load(){
- try{
-  const saved=JSON.parse(localStorage.getItem(STORE_KEY)||'null');
-  if(saved)state={...state,...saved};
- }catch(e){}
+ try{const s=JSON.parse(localStorage.getItem(STORE_KEY)||'null');if(s)state={...state,...s}}catch(e){}
  state.prices={...estimatedPrices,...(state.prices||{})};
 }
 function save(){localStorage.setItem(STORE_KEY,JSON.stringify(state))}
@@ -172,42 +192,28 @@ function defaults(){
  for(let i=0;i<state.days;i++)state.menus.push({dinner:p.dinner[i%p.dinner.length],lunch:p.lunch[i%p.lunch.length]});
 }
 function setInputs(){
- $('budget').value=state.budget;
- $('days').value=state.days;
- $('dinners').value=state.dinners;
- $('lunches').value=state.lunches;
- $('style').value=state.style;
- $('batch').value=state.batch;
+ $('budget').value=state.budget;$('days').value=state.days;
+ $('dinners').value=state.dinners;$('lunches').value=state.lunches;
+ $('style').value=state.style;$('batch').value=state.batch;
 }
 function readInputs(){
  state.budget=Math.max(0,Number($('budget').value)||0);
- state.days=Number($('days').value);
- state.dinners=Number($('dinners').value);
- state.lunches=Number($('lunches').value);
- state.style=$('style').value;
+ state.days=Number($('days').value);state.dinners=Number($('dinners').value);
+ state.lunches=Number($('lunches').value);state.style=$('style').value;
  state.batch=$('batch').value;
 }
 function makeMenus(){
  const names=['Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi','Dimanche'];
  $('menus').innerHTML='';
  state.menus.slice(0,state.days).forEach((m,i)=>{
-  const div=document.createElement('div');
-  div.className='day';
-  div.innerHTML=`
-   <div class="dayhead"><strong>${names[i]}</strong><span class="muted">Dîner × ${state.dinners} · Déjeuner × ${state.lunches}</span></div>
-   <div class="meal"><label>Déjeuner à emporter</label>
-   <select data-day="${i}" data-kind="lunch">
-   ${Object.keys(recipes).filter(k=>recipes[k].type==='lunch').map(k=>`<option value="${k}" ${m.lunch===k?'selected':''}>${recipes[k].name}</option>`).join('')}
-   </select></div>
-   <div class="meal"><label>Dîner</label>
-   <select data-day="${i}" data-kind="dinner">
-   ${Object.keys(recipes).filter(k=>recipes[k].type==='dinner').map(k=>`<option value="${k}" ${m.dinner===k?'selected':''}>${recipes[k].name}</option>`).join('')}
-   </select></div>`;
+  const div=document.createElement('div');div.className='day';
+  div.innerHTML=`<div class="dayhead"><strong>${names[i]}</strong><span class="muted">Dîner × ${state.dinners} · Déjeuner × ${state.lunches}</span></div>
+  <div class="meal"><label>Déjeuner à emporter</label><select data-day="${i}" data-kind="lunch">${Object.keys(recipes).filter(k=>recipes[k].type==='lunch').map(k=>`<option value="${k}" ${m.lunch===k?'selected':''}>${recipes[k].name}</option>`).join('')}</select></div>
+  <div class="meal"><label>Dîner</label><select data-day="${i}" data-kind="dinner">${Object.keys(recipes).filter(k=>recipes[k].type==='dinner').map(k=>`<option value="${k}" ${m.dinner===k?'selected':''}>${recipes[k].name}</option>`).join('')}</select></div>`;
   $('menus').appendChild(div);
  });
  $('menus').querySelectorAll('select').forEach(sel=>sel.addEventListener('change',e=>{
-  const el=e.target;
-  state.menus[Number(el.dataset.day)][el.dataset.kind]=el.value;
+  const el=e.target;state.menus[Number(el.dataset.day)][el.dataset.kind]=el.value;
   renderShopping();save();
  }));
 }
@@ -215,11 +221,8 @@ function quantityMap(){
  const map={};
  state.menus.slice(0,state.days).forEach(m=>{
   for(const [key,n] of [[m.dinner,state.dinners],[m.lunch,state.lunches]]){
-   const r=recipes[key];
-   if(!r)return;
-   Object.entries(r.ingredients).forEach(([name,qty])=>{
-    if(qty!==0)map[name]=(map[name]||0)+qty*n;
-   });
+   const r=recipes[key];if(!r)return;
+   Object.entries(r.ingredients).forEach(([name,qty])=>{if(qty!==0)map[name]=(map[name]||0)+qty*n});
   }
  });
  return map;
@@ -229,31 +232,17 @@ function fmtQty(name,q){
  return q>=1000?`${(q/1000).toLocaleString('fr-FR',{maximumFractionDigits:1})} kg`:`${Math.ceil(q/10)*10} g`;
 }
 function renderShopping(){
- const map=quantityMap();
- $('shopping').innerHTML='';
- let total=0,remaining=0;
+ const map=quantityMap();$('shopping').innerHTML='';let total=0,remaining=0;
  Object.entries(groups).forEach(([group,names])=>{
-  const relevant=names.filter(n=>map[n]);
-  if(!relevant.length)return;
-  const h=document.createElement('div');
-  h.className='group-title';h.textContent=group;$('shopping').appendChild(h);
+  const relevant=names.filter(n=>map[n]);if(!relevant.length)return;
+  const h=document.createElement('div');h.className='group-title';h.textContent=group;$('shopping').appendChild(h);
   relevant.forEach(name=>{
    const checked=!!state.checked[name],price=state.prices[name]??'';
-   if(!checked){
-    remaining++;
-    if(price!==''&&Number.isFinite(Number(price)))total+=Number(price);
-   }
-   const row=document.createElement('div');
-   row.className='item';
-   row.innerHTML=`<input type="checkbox" aria-label="Déjà disponible : ${name}" ${checked?'checked':''}>
-   <div><div class="iname">${name}</div><div class="qty">${fmtQty(name,map[name])} à prévoir</div></div>
-   <input class="price" type="number" min="0" step="0.01" inputmode="decimal" placeholder="Prix €" aria-label="Prix paquet ${name}" value="${price}">`;
-   row.querySelector('input[type=checkbox]').addEventListener('change',e=>{
-    state.checked[name]=e.target.checked;renderShopping();save();
-   });
-   row.querySelector('.price').addEventListener('change',e=>{
-    state.prices[name]=e.target.value;renderShopping();save();
-   });
+   if(!checked){remaining++;if(price!==''&&Number.isFinite(Number(price)))total+=Number(price)}
+   const row=document.createElement('div');row.className='item';
+   row.innerHTML=`<input type="checkbox" aria-label="Déjà disponible : ${name}" ${checked?'checked':''}><div><div class="iname">${name}</div><div class="qty">${fmtQty(name,map[name])} à prévoir</div></div><input class="price" type="number" min="0" step="0.01" inputmode="decimal" placeholder="Prix €" aria-label="Prix paquet ${name}" value="${price}">`;
+   row.querySelector('input[type=checkbox]').addEventListener('change',e=>{state.checked[name]=e.target.checked;renderShopping();save()});
+   row.querySelector('.price').addEventListener('change',e=>{state.prices[name]=e.target.value;renderShopping();save()});
    $('shopping').appendChild(row);
   });
  });
@@ -261,9 +250,9 @@ function renderShopping(){
  $('total').textContent=total.toLocaleString('fr-FR',{style:'currency',currency:'EUR'});
  $('remaining').textContent=remaining;
  $('progress').style.width=(state.budget?Math.min(100,total/state.budget*100):0)+'%';
- $('budgetMessage').textContent=total===0?'Prix indicatifs préremplis : vérifie-les et adapte-les à ton Drive.':
- total<=state.budget?`Il reste ${(state.budget-total).toLocaleString('fr-FR',{style:'currency',currency:'EUR'})} sur le budget selon les prix saisis.`:
- `Budget dépassé de ${(total-state.budget).toLocaleString('fr-FR',{style:'currency',currency:'EUR'})} selon les prix saisis.`;
+ $('budgetMessage').textContent=total===0?'Vérifie les prix indicatifs pour suivre ton budget.':
+ total<=state.budget?`Il reste ${(state.budget-total).toLocaleString('fr-FR',{style:'currency',currency:'EUR'})} sur le budget.`:
+ `Budget dépassé de ${(total-state.budget).toLocaleString('fr-FR',{style:'currency',currency:'EUR'})}.`;
  save();
 }
 function render(){setInputs();makeMenus();renderShopping()}
@@ -279,30 +268,21 @@ $('reset').addEventListener('click',()=>{
 });
 $('uncheck').addEventListener('click',()=>{state.checked={};renderShopping()});
 function listText(){
- const map=quantityMap();
- let out='MES COURSES — E.Leclerc Drive Le Mans Nord\n';
+ const map=quantityMap();let out='MES COURSES — E.Leclerc Drive Le Mans Nord\n';
  Object.entries(groups).forEach(([g,names])=>{
   const a=names.filter(n=>map[n]&&!state.checked[n]);
-  if(a.length){
-   out+='\n'+g+'\n';
-   a.forEach(n=>out+=`- ${n} : ${fmtQty(n,map[n])} — estimation ${state.prices[n]??'?'} €\n`);
-  }
+  if(a.length){out+='\n'+g+'\n';a.forEach(n=>out+=`- ${n} : ${fmtQty(n,map[n])} — estimation ${state.prices[n]??'?'} €\n`)}
  });
  return out;
 }
 $('copy').addEventListener('click',async()=>{
  const txt=listText();
  try{await navigator.clipboard.writeText(txt);$('copy').textContent='✓ Liste copiée'}
- catch(e){
-  const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();$('copy').textContent='✓ Liste copiée';
- }
+ catch(e){const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();$('copy').textContent='✓ Liste copiée'}
 });
 $('csv').addEventListener('click',()=>{
- const map=quantityMap();
- const rows=[['Rayon','Produit','Quantité indicative','Prix estimatif (€)','Déjà disponible']];
- Object.entries(groups).forEach(([g,names])=>names.forEach(n=>{
-  if(map[n])rows.push([g,n,fmtQty(n,map[n]),state.prices[n]||'',state.checked[n]?'Oui':'Non']);
- }));
+ const map=quantityMap();const rows=[['Rayon','Produit','Quantité indicative','Prix estimatif (€)','Déjà disponible']];
+ Object.entries(groups).forEach(([g,names])=>names.forEach(n=>{if(map[n])rows.push([g,n,fmtQty(n,map[n]),state.prices[n]||'',state.checked[n]?'Oui':'Non'])}));
  const csv=rows.map(r=>r.map(x=>'"'+String(x).replace(/"/g,'""')+'"').join(';')).join('\r\n');
  const blob=new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8;'});
  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='mes-courses-leclerc.csv';a.click();URL.revokeObjectURL(a.href);
@@ -310,10 +290,7 @@ $('csv').addEventListener('click',()=>{
 load();
 if(!state.menus||state.menus.length===0)defaults();
 state.menus=state.menus.slice(0,state.days);
-while(state.menus.length<state.days){
- const p=plans[state.style]||plans.weight,i=state.menus.length;
- state.menus.push({dinner:p.dinner[i%p.dinner.length],lunch:p.lunch[i%p.lunch.length]});
-}
+while(state.menus.length<state.days){const p=plans[state.style]||plans.weight,i=state.menus.length;state.menus.push({dinner:p.dinner[i%p.dinner.length],lunch:p.lunch[i%p.lunch.length]})}
 render();
 </script>
 </body>
