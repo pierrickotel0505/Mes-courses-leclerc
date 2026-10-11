@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#167447">
-<title>Mes Courses</title>
+<title>Mes Courses - E.Leclerc Drive</title>
 <style>
 *{box-sizing:border-box}
 body{margin:0;background:#f3f6f4;color:#202820;font:16px Arial,sans-serif}
@@ -38,7 +38,12 @@ label{display:block;font-size:13px;margin:12px 0 5px;color:#58635b}
 .secondary{background:#e6eee8;color:#205d3c}
 .empty{color:#647068;text-align:center;padding:20px 0}
 a{color:#167447}
-@media(max-width:390px){.details{margin-left:0;grid-template-columns:1fr 1fr}.remove{grid-column:1 / -1}.addgrid{grid-template-columns:1fr 90px}}
+#searchMessage{overflow-wrap:anywhere}
+@media(max-width:390px){
+.details{margin-left:0;grid-template-columns:1fr 1fr}
+.remove{grid-column:1 / -1}
+.addgrid{grid-template-columns:1fr 90px}
+}
 </style>
 </head>
 <body>
@@ -46,6 +51,7 @@ a{color:#167447}
 <h1>🛒 Mes Courses</h1>
 <p>E.Leclerc Drive — Le Mans Nord, Rhin et Danube</p>
 </header>
+
 <main>
 <section class="panel">
 <h2>Ajouter un produit</h2>
@@ -53,11 +59,16 @@ a{color:#167447}
 <div class="addgrid">
 <input id="name" placeholder="Ex. lait, pâtes, pommes" required>
 <select id="category" aria-label="Rayon">
-<option>Épicerie</option><option>Fruits et légumes</option>
-<option>Viande et poisson</option><option>Produits laitiers</option>
-<option>Boulangerie</option><option>Surgelés</option>
-<option>Boissons</option><option>Hygiène</option>
-<option>Entretien</option><option>Autre</option>
+<option>Épicerie</option>
+<option>Fruits et légumes</option>
+<option>Viande et poisson</option>
+<option>Produits laitiers</option>
+<option>Boulangerie</option>
+<option>Surgelés</option>
+<option>Boissons</option>
+<option>Hygiène</option>
+<option>Entretien</option>
+<option>Autre</option>
 </select>
 <button type="submit">Ajouter</button>
 </div>
@@ -76,7 +87,7 @@ a{color:#167447}
 <div class="total" id="total">0,00 €</div>
 </div>
 </div>
-<p class="muted">Renseigne les prix unitaires pour calculer le total. Ces prix ne sont pas récupérés automatiquement du catalogue E.Leclerc.</p>
+<p class="muted">Le total utilise les prix que tu renseignes. Ils ne sont pas récupérés automatiquement du catalogue E.Leclerc.</p>
 <div class="actions">
 <button type="button" id="clearDone" class="secondary">Supprimer les articles cochés</button>
 <button type="button" id="clearAll" class="secondary">Vider la liste</button>
@@ -84,64 +95,171 @@ a{color:#167447}
 </section>
 
 <section class="panel">
-<h2>Mon Drive</h2>
-<p class="muted">Ouvre le site E.Leclerc Drive et vérifie que ton magasin habituel est sélectionné.</p>
-<a href="https://www.leclercdrive.fr/" target="_blank" rel="noopener">Ouvrir E.Leclerc Drive ↗</a>
+<h2>🔎 Rechercher sur mon Drive</h2>
+<p class="muted">Saisis un produit, copie le terme de recherche, puis ouvre ton Drive pour consulter les produits et leurs prix.</p>
+<label for="driveSearch">Produit recherché</label>
+<input id="driveSearch" placeholder="Ex. lait demi-écrémé">
+
+<div class="actions" style="margin-top:12px">
+<button type="button" id="prepareSearch">Copier la recherche</button>
+<button type="button" id="openDrive" class="secondary">Ouvrir mon Drive</button>
+</div>
+<p id="searchMessage" class="muted" aria-live="polite"></p>
+
+<a href="https://www.leclercdrive.fr/" target="_blank" rel="noopener">
+Accéder à E.Leclerc Drive ↗
+</a>
 </section>
 </main>
+
 <script>
 const KEY = "mesCoursesLeclercV2";
 let products = [];
-try { products = JSON.parse(localStorage.getItem(KEY) || "[]"); } catch(e) {}
-const $ = id => document.getElementById(id);
-const money = n => n.toLocaleString("fr-FR",{style:"currency",currency:"EUR"});
-function save(){ localStorage.setItem(KEY,JSON.stringify(products)); render(); }
-function render(){
- const root=$("items");
- root.innerHTML="";
- if(!products.length) root.innerHTML='<p class="empty">Ta liste est vide.</p>';
- products.forEach((p,i)=>{
-  const el=document.createElement("div");
-  el.className="item"+(p.done?" done":"");
-  el.innerHTML=`
-   <div class="itemtop">
-    <input type="checkbox" aria-label="Article acheté" ${p.done?"checked":""}>
-    <span class="itemname"></span>
-    <button class="remove" type="button" aria-label="Supprimer">✕</button>
-   </div>
-   <div class="muted" style="margin:5px 0 0 32px"></div>
-   <div class="details">
-    <input type="number" min="1" step="1" value="${p.qty}" aria-label="Quantité">
-    <input type="number" min="0" step="0.01" value="${p.price ?? ""}" placeholder="Prix unité €" aria-label="Prix unitaire">
-    <span style="align-self:center;font-size:13px;white-space:nowrap"></span>
-   </div>`;
-  el.querySelector(".itemname").textContent=p.name;
-  el.querySelector(".muted").textContent=p.category;
-  const inputs=el.querySelectorAll("input");
-  inputs[0].addEventListener("change",e=>{p.done=e.target.checked;save();});
-  inputs[1].addEventListener("change",e=>{p.qty=Math.max(1,parseInt(e.target.value)||1);save();});
-  inputs[2].addEventListener("change",e=>{p.price=e.target.value===""?null:Math.max(0,Number(e.target.value)||0);save();});
-  el.querySelector(".remove").addEventListener("click",()=>{products.splice(i,1);save();});
-  const line=el.querySelector(".details span");
-  line.textContent=p.price==null?"—":money(p.qty*p.price);
-  root.appendChild(el);
- });
- $("count").textContent=products.length+" article"+(products.length>1?"s":"");
- const total=products.filter(p=>!p.done&&p.price!=null).reduce((s,p)=>s+p.qty*p.price,0);
- $("total").textContent=money(total);
+
+try {
+  products = JSON.parse(localStorage.getItem(KEY) || "[]");
+  if (!Array.isArray(products)) products = [];
+} catch(e) {
+  products = [];
 }
-$("form").addEventListener("submit",e=>{
- e.preventDefault();
- const name=$("name").value.trim();
- if(!name)return;
- products.push({name,category:$("category").value,qty:1,price:null,done:false});
- $("name").value="";
- save();
+
+const $ = id => document.getElementById(id);
+
+function money(n) {
+  return n.toLocaleString("fr-FR", {
+    style:"currency",
+    currency:"EUR"
+  });
+}
+
+function save() {
+  try {
+    localStorage.setItem(KEY, JSON.stringify(products));
+  } catch(e) {
+    alert("La sauvegarde locale n'a pas fonctionné.");
+  }
+  render();
+}
+
+function render() {
+  const root = $("items");
+  root.innerHTML = "";
+
+  if (!products.length) {
+    root.innerHTML = '<p class="empty">Ta liste est vide.</p>';
+  }
+
+  products.forEach((p, i) => {
+    const el = document.createElement("div");
+    el.className = "item" + (p.done ? " done" : "");
+
+    el.innerHTML = `
+      <div class="itemtop">
+        <input type="checkbox" aria-label="Article acheté" ${p.done ? "checked" : ""}>
+        <span class="itemname"></span>
+        <button class="remove" type="button" aria-label="Supprimer">✕</button>
+      </div>
+      <div class="muted category" style="margin:5px 0 0 32px"></div>
+      <div class="details">
+        <input type="number" min="1" step="1" value="${Number(p.qty) || 1}" aria-label="Quantité">
+        <input type="number" min="0" step="0.01" value="${p.price == null ? "" : Number(p.price)}" placeholder="Prix unité €" aria-label="Prix unitaire">
+        <span class="lineTotal" style="align-self:center;font-size:13px;white-space:nowrap"></span>
+      </div>`;
+
+    el.querySelector(".itemname").textContent = p.name;
+    el.querySelector(".category").textContent = p.category || "Autre";
+
+    const inputs = el.querySelectorAll("input");
+
+    inputs[0].addEventListener("change", e => {
+      p.done = e.target.checked;
+      save();
+    });
+
+    inputs[1].addEventListener("change", e => {
+      p.qty = Math.max(1, parseInt(e.target.value, 10) || 1);
+      save();
+    });
+
+    inputs[2].addEventListener("change", e => {
+      p.price = e.target.value === "" ? null : Math.max(0, Number(e.target.value) || 0);
+      save();
+    });
+
+    el.querySelector(".remove").addEventListener("click", () => {
+      products.splice(i, 1);
+      save();
+    });
+
+    el.querySelector(".lineTotal").textContent =
+      p.price == null ? "Prix à renseigner" : money((Number(p.qty) || 1) * Number(p.price));
+
+    root.appendChild(el);
+  });
+
+  $("count").textContent = products.length + " article" + (products.length > 1 ? "s" : "");
+
+  const total = products
+    .filter(p => !p.done && p.price != null && Number.isFinite(Number(p.price)))
+    .reduce((s, p) => s + (Number(p.qty) || 1) * Number(p.price), 0);
+
+  $("total").textContent = money(total);
+}
+
+$("form").addEventListener("submit", e => {
+  e.preventDefault();
+
+  const name = $("name").value.trim();
+  if (!name) return;
+
+  products.push({
+    name,
+    category: $("category").value,
+    qty: 1,
+    price: null,
+    done: false
+  });
+
+  $("name").value = "";
+  save();
 });
-$("clearDone").addEventListener("click",()=>{products=products.filter(p=>!p.done);save();});
-$("clearAll").addEventListener("click",()=>{
- if(confirm("Vider toute la liste ?")){products=[];save();}
+
+$("clearDone").addEventListener("click", () => {
+  products = products.filter(p => !p.done);
+  save();
 });
+
+$("clearAll").addEventListener("click", () => {
+  if (confirm("Vider toute la liste ?")) {
+    products = [];
+    save();
+  }
+});
+
+const DRIVE_URL = "https://www.leclercdrive.fr/";
+
+$("prepareSearch").addEventListener("click", async () => {
+  const term = $("driveSearch").value.trim();
+
+  if (!term) {
+    $("searchMessage").textContent = "Saisis d'abord un produit.";
+    return;
+  }
+
+  try {
+    await navigator.clipboard.writeText(term);
+    $("searchMessage").textContent =
+      "Recherche copiée : « " + term + " ». Ouvre ton Drive et colle-la dans la recherche.";
+  } catch(e) {
+    $("searchMessage").textContent =
+      "Recherche à saisir dans le Drive : « " + term + " ». La copie automatique n'est pas disponible.";
+  }
+});
+
+$("openDrive").addEventListener("click", () => {
+  window.open(DRIVE_URL, "_blank", "noopener");
+});
+
 render();
 </script>
 </body>
