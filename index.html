@@ -1,266 +1,331 @@
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#167447">
-<title>Mes Courses - E.Leclerc Drive</title>
+<title>Mes Courses</title>
 <style>
 *{box-sizing:border-box}
 body{margin:0;background:#f3f6f4;color:#202820;font:16px Arial,sans-serif}
 header{background:#167447;color:white;padding:22px 16px}
-header h1{margin:0 0 6px;font-size:26px}
-header p{margin:0;font-size:14px}
-main{max-width:650px;margin:auto;padding:16px}
-.panel{background:white;padding:16px;border-radius:14px;margin-bottom:14px;box-shadow:0 2px 8px #0000000b}
-h2{font-size:18px;margin:0 0 12px}
-input,select,button{font:inherit;padding:12px;border-radius:9px}
-input,select{border:1px solid #ccd5ce;background:white;min-width:0;width:100%}
+header h1{margin:0 0 5px}
+main{max-width:760px;margin:auto;padding:14px}
+h2{font-size:19px;margin:0 0 12px}
+.card{background:white;padding:16px;border-radius:14px;margin-bottom:14px;box-shadow:0 2px 8px #0001}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+label{display:block;font-size:13px;margin:9px 0 5px;color:#647068}
+input,select,button{font:inherit;padding:11px;border-radius:9px;min-width:0}
+input,select{width:100%;border:1px solid #ccd5ce;background:white}
 button{border:0;background:#167447;color:white;font-weight:bold;cursor:pointer}
-.addgrid{display:grid;grid-template-columns:1fr 100px;gap:8px}
-.addgrid select{grid-column:1}
-.addgrid button{grid-column:2;grid-row:1 / span 2}
-label{display:block;font-size:13px;margin:12px 0 5px;color:#58635b}
-.item{border-bottom:1px solid #e8ece9;padding:12px 0}
-.item:last-child{border:0}
-.itemtop{display:flex;align-items:center;gap:10px}
-.itemtop input[type=checkbox]{width:22px;height:22px;flex-shrink:0}
-.itemname{flex:1;font-weight:bold;overflow-wrap:anywhere}
-.done .itemname{text-decoration:line-through;color:#7c877f}
-.details{display:grid;grid-template-columns:1fr 1fr auto;gap:8px;margin:10px 0 0 32px}
-.details input{padding:9px;font-size:14px}
-.remove{background:#fbe9e7;color:#9c2e24;padding:8px 11px}
-.summary{display:flex;justify-content:space-between;gap:12px;align-items:center}
-.total{font-size:23px;font-weight:bold;color:#167447}
-.muted{font-size:13px;color:#647068}
-.actions{display:flex;gap:8px;flex-wrap:wrap}
-.secondary{background:#e6eee8;color:#205d3c}
-.empty{color:#647068;text-align:center;padding:20px 0}
+.alt{background:#e6eee8;color:#205d3c}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.actions button{flex:1}
+.small{font-size:13px;color:#647068;line-height:1.4}
+.menu{padding:12px 0;border-bottom:1px solid #e5ebe6}
+.menu:last-child{border:0}
+.row{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.pill{font-size:12px;background:#e6f3e9;color:#205d3c;padding:4px 8px;border-radius:20px;white-space:nowrap}
+.item{display:flex;align-items:flex-start;gap:9px;padding:10px 0;border-bottom:1px solid #e5ebe6}
+.item input[type=checkbox]{width:21px;height:21px;flex-shrink:0;margin-top:2px}
+.desc{flex:1}
+.price{width:95px!important;padding:8px!important}
+.total{font-size:24px;font-weight:bold;color:#167447}
+.warn{background:#fff5db;padding:10px;border-radius:9px;font-size:13px;line-height:1.4}
 a{color:#167447}
-#searchMessage{overflow-wrap:anywhere}
-@media(max-width:390px){
-.details{margin-left:0;grid-template-columns:1fr 1fr}
-.remove{grid-column:1 / -1}
-.addgrid{grid-template-columns:1fr 90px}
-}
+@media(max-width:420px){.grid{grid-template-columns:1fr}.card{padding:13px}}
 </style>
 </head>
 <body>
 <header>
 <h1>🛒 Mes Courses</h1>
-<p>E.Leclerc Drive — Le Mans Nord, Rhin et Danube</p>
+<div>Menus malins · Budget maîtrisé · E.Leclerc Drive Le Mans Nord</div>
 </header>
 
 <main>
-<section class="panel">
-<h2>Ajouter un produit</h2>
-<form id="form">
-<div class="addgrid">
-<input id="name" placeholder="Ex. lait, pâtes, pommes" required>
-<select id="category" aria-label="Rayon">
-<option>Épicerie</option>
-<option>Fruits et légumes</option>
-<option>Viande et poisson</option>
-<option>Produits laitiers</option>
-<option>Boulangerie</option>
-<option>Surgelés</option>
-<option>Boissons</option>
-<option>Hygiène</option>
-<option>Entretien</option>
-<option>Autre</option>
-</select>
-<button type="submit">Ajouter</button>
+<section class="card">
+<h2>Ma semaine</h2>
+<div class="grid">
+<div>
+<label for="budget">Budget cible (€)</label>
+<input id="budget" type="number" value="130" min="1">
 </div>
-</form>
+<div>
+<label for="people">Dîners pour</label>
+<select id="people">
+<option value="3" selected>3 personnes</option>
+<option value="4">4 personnes</option>
+</select>
+</div>
+<div>
+<label for="days">Durée</label>
+<select id="days">
+<option value="7" selected>7 jours</option>
+<option value="5">5 jours</option>
+</select>
+</div>
+<div>
+<label for="style">Objectif</label>
+<select id="style">
+<option>Perte de poids</option>
+<option>Équilibré et économique</option>
+<option>Familial et rapide</option>
+</select>
+</div>
+</div>
+<div class="actions">
+<button id="generate">Actualiser les menus</button>
+<button class="alt" id="reset">Décocher la liste</button>
+</div>
+<p class="small">
+Hypothèse : dîners pour 3 personnes et gamelles pour 2 adultes.
+Les quantités sont des estimations à adapter selon les stocks.
+</p>
 </section>
 
-<section class="panel">
-<div class="summary">
-<h2>Ma liste</h2>
-<span id="count" class="muted">0 article</span>
+<section class="card">
+<div class="row">
+<h2>Menus de la semaine</h2>
+<span class="pill">Batch cooking</span>
 </div>
-<div id="items"><p class="empty">Ta liste est vide.</p></div>
-<div class="summary" style="margin-top:14px">
+<div id="menus"></div>
+<p class="small">
+<b>Préparation conseillée :</b> cuire du riz pour plusieurs repas,
+préparer une grande sauce tomate, rôtir des légumes et portionner
+les restes. Réfrigérer rapidement dans des boîtes fermées.
+</p>
+</section>
+
+<section class="card">
+<div class="row">
+<h2>Liste de courses</h2>
+<span id="progress" class="small"></span>
+</div>
+<p class="small">
+Coche les produits déjà disponibles. Saisis uniquement les prix
+vérifiés dans ton Drive.
+</p>
+<div id="items"></div>
+<div class="row" style="margin-top:14px">
 <div>
-<div class="muted">Total estimé des articles non cochés</div>
+<div class="small">Total des prix renseignés</div>
 <div class="total" id="total">0,00 €</div>
 </div>
+<div id="missing" class="small"></div>
 </div>
-<p class="muted">Le total utilise les prix que tu renseignes. Ils ne sont pas récupérés automatiquement du catalogue E.Leclerc.</p>
+<p class="warn">
+Les prix ne sont pas récupérés automatiquement du catalogue E.Leclerc.
+Le total inclut uniquement les prix que tu renseignes.
+</p>
 <div class="actions">
-<button type="button" id="clearDone" class="secondary">Supprimer les articles cochés</button>
-<button type="button" id="clearAll" class="secondary">Vider la liste</button>
+<button id="copy" class="alt">Copier la liste restante</button>
+<button id="csv" class="alt">Exporter CSV</button>
 </div>
 </section>
 
-<section class="panel">
-<h2>🔎 Rechercher sur mon Drive</h2>
-<p class="muted">Saisis un produit, copie le terme de recherche, puis ouvre ton Drive pour consulter les produits et leurs prix.</p>
-<label for="driveSearch">Produit recherché</label>
-<input id="driveSearch" placeholder="Ex. lait demi-écrémé">
-
-<div class="actions" style="margin-top:12px">
-<button type="button" id="prepareSearch">Copier la recherche</button>
-<button type="button" id="openDrive" class="secondary">Ouvrir mon Drive</button>
-</div>
-<p id="searchMessage" class="muted" aria-live="polite"></p>
-
-<a href="https://www.leclercdrive.fr/" target="_blank" rel="noopener">
-Accéder à E.Leclerc Drive ↗
+<section class="card">
+<h2>Mon Drive</h2>
+<p class="small">
+Connecte-toi uniquement sur le site officiel. L'ouverture du Drive
+ne modifie pas automatiquement ton panier.
+</p>
+<a target="_blank" rel="noopener"
+href="https://www.leclercdrive.fr/">
+Ouvrir E.Leclerc Drive ↗
 </a>
 </section>
 </main>
 
 <script>
-const KEY = "mesCoursesLeclercV2";
-let products = [];
+const KEY = "mesCoursesSmartV1";
 
+const recipes = [
+["Lundi","Poulet au four, riz et légumes","30 min",
+"Poulet, riz, carottes et légumes rôtis. Préparer du riz et des légumes en plus pour les gamelles."],
+["Mardi","Dahl de lentilles corail","25 min",
+"Lentilles, tomates, carottes, oignon et épices. Prévoir des portions supplémentaires pour le déjeuner."],
+["Mercredi","Bolognaise aux légumes et pâtes complètes","30 min",
+"Viande hachée, pâtes, tomates, oignon et courgette. Préparer une grande sauce pour les restes."],
+["Jeudi","Gratin de pommes de terre et légumes","35 min",
+"Pommes de terre, légumes, lait et un peu de fromage râpé."],
+["Vendredi","Bowl de riz, thon et pois chiches","15 min",
+"Réutiliser le riz restant, avec thon, pois chiches et crudités."],
+["Samedi","Omelette aux légumes et salade","20 min",
+"Œufs, légumes restants, salade et pain complet si souhaité."],
+["Dimanche","Soupe maison et tartines protéinées","30 min",
+"Carottes, pommes de terre, oignon et lentilles restantes."]
+];
+
+const initial = [
+["Viande & poisson","Poulet sans peau","700 g"],
+["Viande & poisson","Viande hachée maigre","400 g"],
+["Viande & poisson","Thon au naturel","2 boîtes"],
+["Œufs & frais","Œufs","12"],
+["Produits laitiers","Fromage blanc nature","1 kg"],
+["Produits laitiers","Lait demi-écrémé","1 L"],
+["Produits laitiers","Fromage râpé","150 g"],
+["Fruits & légumes","Carottes","1,5 kg"],
+["Fruits & légumes","Courgettes","2"],
+["Fruits & légumes","Pommes de terre","2 kg"],
+["Fruits & légumes","Oignons","1 kg"],
+["Fruits & légumes","Salade ou concombre","2 pièces"],
+["Fruits & légumes","Légumes surgelés nature","1 kg"],
+["Épicerie","Riz","1 kg"],
+["Épicerie","Pâtes complètes","500 g"],
+["Épicerie","Lentilles","500 g"],
+["Épicerie","Pois chiches","2 boîtes"],
+["Épicerie","Tomates concassées","3 boîtes"],
+["Épicerie","Pain complet","1 pain"],
+["Fruits","Fruits de saison","2–3 kg"],
+["Placards","Huile, épices, moutarde","Vérifier les stocks"]
+].map((x,i)=>({
+id:i,cat:x[0],name:x[1],qty:x[2],checked:false,price:""
+}));
+
+let state;
 try {
-  products = JSON.parse(localStorage.getItem(KEY) || "[]");
-  if (!Array.isArray(products)) products = [];
-} catch(e) {
-  products = [];
+  state = JSON.parse(localStorage.getItem(KEY) || "null");
+} catch(e) {}
+
+if(!state || !Array.isArray(state.items)){
+  state = {
+    budget:130,
+    people:3,
+    days:7,
+    style:"Perte de poids",
+    items:initial
+  };
 }
 
 const $ = id => document.getElementById(id);
 
-function money(n) {
-  return n.toLocaleString("fr-FR", {
-    style:"currency",
-    currency:"EUR"
-  });
+function save(){
+  try {
+    localStorage.setItem(KEY,JSON.stringify(state));
+  } catch(e) {}
 }
 
-function save() {
-  try {
-    localStorage.setItem(KEY, JSON.stringify(products));
-  } catch(e) {
-    alert("La sauvegarde locale n'a pas fonctionné.");
-  }
+function renderMenus(){
+  const n = Number(state.days);
+  $("menus").innerHTML = recipes.slice(0,n).map(r =>
+    '<div class="menu">' +
+    '<div class="row"><b>'+r[0]+' — '+r[1]+'</b>' +
+    '<span class="pill">'+r[2]+'</span></div>' +
+    '<p>'+r[3]+'</p></div>'
+  ).join("");
+}
+
+function renderItems(){
+  let total=0,known=0,checked=0;
+  $("items").innerHTML="";
+
+  state.items.forEach(g=>{
+    if(g.checked) checked++;
+    if(g.price!==""){
+      total += Number(g.price)||0;
+      known++;
+    }
+
+    const d=document.createElement("div");
+    d.className="item";
+    d.innerHTML =
+      '<input type="checkbox" aria-label="Déjà à la maison" '+
+      (g.checked?'checked':'')+'>' +
+      '<div class="desc"><b></b><div class="small"></div></div>' +
+      '<input class="price" type="number" min="0" step="0.01" '+
+      'inputmode="decimal" placeholder="Prix €" aria-label="Prix vérifié">';
+
+    d.querySelector(".desc b").textContent=g.name;
+    d.querySelector(".small").textContent=g.cat+" · "+g.qty;
+    d.querySelector(".price").value=g.price;
+
+    d.querySelector('input[type="checkbox"]').onchange=e=>{
+      g.checked=e.target.checked;
+      save();
+      renderItems();
+    };
+
+    d.querySelector(".price").onchange=e=>{
+      g.price=e.target.value;
+      save();
+      renderItems();
+    };
+
+    $("items").appendChild(d);
+  });
+
+  $("total").textContent=total.toLocaleString("fr-FR",{
+    style:"currency",currency:"EUR"
+  });
+  $("progress").textContent=checked+"/"+state.items.length+" cochés";
+  $("missing").textContent=known+"/"+state.items.length+" prix saisis";
+}
+
+function render(){
+  $("budget").value=state.budget;
+  $("people").value=state.people;
+  $("days").value=state.days;
+  $("style").value=state.style;
+  renderMenus();
+  renderItems();
+}
+
+$("generate").onclick=()=>{
+  state.budget=Number($("budget").value)||130;
+  state.people=Number($("people").value);
+  state.days=Number($("days").value);
+  state.style=$("style").value;
+  save();
   render();
-}
+};
 
-function render() {
-  const root = $("items");
-  root.innerHTML = "";
-
-  if (!products.length) {
-    root.innerHTML = '<p class="empty">Ta liste est vide.</p>';
-  }
-
-  products.forEach((p, i) => {
-    const el = document.createElement("div");
-    el.className = "item" + (p.done ? " done" : "");
-
-    el.innerHTML = `
-      <div class="itemtop">
-        <input type="checkbox" aria-label="Article acheté" ${p.done ? "checked" : ""}>
-        <span class="itemname"></span>
-        <button class="remove" type="button" aria-label="Supprimer">✕</button>
-      </div>
-      <div class="muted category" style="margin:5px 0 0 32px"></div>
-      <div class="details">
-        <input type="number" min="1" step="1" value="${Number(p.qty) || 1}" aria-label="Quantité">
-        <input type="number" min="0" step="0.01" value="${p.price == null ? "" : Number(p.price)}" placeholder="Prix unité €" aria-label="Prix unitaire">
-        <span class="lineTotal" style="align-self:center;font-size:13px;white-space:nowrap"></span>
-      </div>`;
-
-    el.querySelector(".itemname").textContent = p.name;
-    el.querySelector(".category").textContent = p.category || "Autre";
-
-    const inputs = el.querySelectorAll("input");
-
-    inputs[0].addEventListener("change", e => {
-      p.done = e.target.checked;
-      save();
-    });
-
-    inputs[1].addEventListener("change", e => {
-      p.qty = Math.max(1, parseInt(e.target.value, 10) || 1);
-      save();
-    });
-
-    inputs[2].addEventListener("change", e => {
-      p.price = e.target.value === "" ? null : Math.max(0, Number(e.target.value) || 0);
-      save();
-    });
-
-    el.querySelector(".remove").addEventListener("click", () => {
-      products.splice(i, 1);
-      save();
-    });
-
-    el.querySelector(".lineTotal").textContent =
-      p.price == null ? "Prix à renseigner" : money((Number(p.qty) || 1) * Number(p.price));
-
-    root.appendChild(el);
-  });
-
-  $("count").textContent = products.length + " article" + (products.length > 1 ? "s" : "");
-
-  const total = products
-    .filter(p => !p.done && p.price != null && Number.isFinite(Number(p.price)))
-    .reduce((s, p) => s + (Number(p.qty) || 1) * Number(p.price), 0);
-
-  $("total").textContent = money(total);
-}
-
-$("form").addEventListener("submit", e => {
-  e.preventDefault();
-
-  const name = $("name").value.trim();
-  if (!name) return;
-
-  products.push({
-    name,
-    category: $("category").value,
-    qty: 1,
-    price: null,
-    done: false
-  });
-
-  $("name").value = "";
+$("reset").onclick=()=>{
+  state.items.forEach(g=>g.checked=false);
   save();
-});
+  renderItems();
+};
 
-$("clearDone").addEventListener("click", () => {
-  products = products.filter(p => !p.done);
-  save();
-});
-
-$("clearAll").addEventListener("click", () => {
-  if (confirm("Vider toute la liste ?")) {
-    products = [];
-    save();
-  }
-});
-
-const DRIVE_URL = "https://www.leclercdrive.fr/";
-
-$("prepareSearch").addEventListener("click", async () => {
-  const term = $("driveSearch").value.trim();
-
-  if (!term) {
-    $("searchMessage").textContent = "Saisis d'abord un produit.";
-    return;
-  }
+$("copy").onclick=async()=>{
+  const text=state.items
+    .filter(g=>!g.checked)
+    .map(g=>g.name+" — "+g.qty)
+    .join("\n");
 
   try {
-    await navigator.clipboard.writeText(term);
-    $("searchMessage").textContent =
-      "Recherche copiée : « " + term + " ». Ouvre ton Drive et colle-la dans la recherche.";
+    await navigator.clipboard.writeText(text);
+    alert("Liste copiée.");
   } catch(e) {
-    $("searchMessage").textContent =
-      "Recherche à saisir dans le Drive : « " + term + " ». La copie automatique n'est pas disponible.";
+    prompt("Copie la liste :",text);
   }
-});
+};
 
-$("openDrive").addEventListener("click", () => {
-  window.open(DRIVE_URL, "_blank", "noopener");
-});
+$("csv").onclick=()=>{
+  const rows=[
+    ["Rayon","Produit","Quantité","Prix renseigné","Déjà à la maison"],
+    ...state.items.map(g=>[
+      g.cat,g.name,g.qty,g.price,g.checked?"oui":"non"
+    ])
+  ];
 
+  const csv=rows.map(r=>
+    r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(";")
+  ).join("\r\n");
+
+  const blob=new Blob(["\ufeff"+csv],{
+    type:"text/csv;charset=utf-8;"
+  });
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement("a");
+  a.href=url;
+  a.download="mes-courses-leclerc.csv";
+  a.click();
+  URL.revokeObjectURL(url);
+};
+
+save();
 render();
 </script>
 </body>
 </html>
+
