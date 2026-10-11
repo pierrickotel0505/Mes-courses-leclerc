@@ -1,1 +1,49 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mes Courses</title>
+<style>
+body{font-family:Arial,sans-serif;background:#f2f5f2;margin:0;color:#222}
+header{background:#08783e;color:white;padding:20px;text-align:center}
+main{padding:16px;max-width:600px;margin:auto}
+.card{background:white;padding:16px;border-radius:12px;margin:16px 0}
+input{box-sizing:border-box;width:100%;padding:12px;font-size:16px;margin:8px 0}
+button{background:#08783e;color:white;border:0;border-radius:8px;padding:12px;font-size:16px}
+li{padding:8px 0}
+</style>
+</head>
+<body>
+<header><h1>🛒 Mes Courses</h1><p>E.Leclerc Drive — Le Mans Nord</p></header>
+<main>
+<div class="card">
+<h2>Ma liste de courses</h2>
+<input id="produit" placeholder="Ex. lait, pâtes, pommes">
+<button onclick="ajouter()">Ajouter</button>
+<ul id="liste"></ul>
+</div>
+<div class="card">
+<h2>Mon Drive</h2>
+<p>Le catalogue réel et les prix du magasin seront connectés dans une prochaine étape.</p>
+<button onclick="window.open('https://www.leclercdrive.fr/','_blank')">Ouvrir E.Leclerc Drive</button>
+</div>
+</main>
+<script>
+function ajouter(){
+const champ=document.getElementById('produit');
+const nom=champ.value.trim();
+if(!nom)return;
+const li=document.createElement('li');
+li.textContent=nom+' ';
+const b=document.createElement('button');
+b.textContent='Supprimer';
+b.onclick=()=>li.remove();
+li.appendChild(b);
+document.getElementById('liste').appendChild(li);
+champ.value='';
+}
+</script>
+</body>
+</html>
 
