@@ -4,328 +4,317 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#167447">
-<title>Mes Courses</title>
+<meta name="theme-color" content="#176b3a">
+<title>Mes Courses Leclerc</title>
 <style>
+:root{--green:#176b3a;--pale:#eaf5ed;--ink:#1c2921;--muted:#627067;--line:#dce5de;--bg:#f5f8f5;--white:#fff;--orange:#fff1d8}
 *{box-sizing:border-box}
-body{margin:0;background:#f3f6f4;color:#202820;font:16px Arial,sans-serif}
-header{background:#167447;color:white;padding:22px 16px}
-header h1{margin:0 0 5px}
-main{max-width:760px;margin:auto;padding:14px}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 system-ui,sans-serif}
+header{background:var(--green);color:white;padding:20px 16px}
+header h1{margin:0;font-size:25px}
+header p{margin:5px 0 0;font-size:14px}
+main{max-width:850px;margin:auto;padding:14px;display:grid;gap:14px}
+.card{background:white;border:1px solid var(--line);border-radius:16px;padding:16px}
 h2{font-size:19px;margin:0 0 12px}
-.card{background:white;padding:16px;border-radius:14px;margin-bottom:14px;box-shadow:0 2px 8px #0001}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-label{display:block;font-size:13px;margin:9px 0 5px;color:#647068}
-input,select,button{font:inherit;padding:11px;border-radius:9px;min-width:0}
-input,select{width:100%;border:1px solid #ccd5ce;background:white}
-button{border:0;background:#167447;color:white;font-weight:bold;cursor:pointer}
-.alt{background:#e6eee8;color:#205d3c}
-.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
-.actions button{flex:1}
-.small{font-size:13px;color:#647068;line-height:1.4}
-.menu{padding:12px 0;border-bottom:1px solid #e5ebe6}
-.menu:last-child{border:0}
-.row{display:flex;align-items:center;justify-content:space-between;gap:8px}
-.pill{font-size:12px;background:#e6f3e9;color:#205d3c;padding:4px 8px;border-radius:20px;white-space:nowrap}
-.item{display:flex;align-items:flex-start;gap:9px;padding:10px 0;border-bottom:1px solid #e5ebe6}
-.item input[type=checkbox]{width:21px;height:21px;flex-shrink:0;margin-top:2px}
-.desc{flex:1}
-.price{width:95px!important;padding:8px!important}
-.total{font-size:24px;font-weight:bold;color:#167447}
-.warn{background:#fff5db;padding:10px;border-radius:9px;font-size:13px;line-height:1.4}
-a{color:#167447}
-@media(max-width:420px){.grid{grid-template-columns:1fr}.card{padding:13px}}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.field label{display:block;font-size:13px;font-weight:650;margin-bottom:5px}
+.field input,.field select,.price{width:100%;padding:10px;border:1px solid #cbd8ce;border-radius:10px;background:white;font:inherit}
+button,.button{border:0;border-radius:10px;padding:11px 13px;font:inherit;font-weight:700;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:6px}
+.primary{background:var(--green);color:white}
+.secondary{background:var(--pale);color:var(--green)}
+.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.day{border:1px solid var(--line);border-radius:12px;padding:12px;margin:9px 0}
+.dayhead{display:flex;justify-content:space-between;gap:8px;align-items:center}
+.meal{margin-top:8px;display:grid;gap:4px}
+.meal label{font-size:12px;color:var(--muted);font-weight:700}
+.meal select{width:100%;padding:9px;border:1px solid #cbd8ce;border-radius:9px;background:white;font:inherit}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.stat{background:var(--pale);border-radius:12px;padding:10px}
+.stat small{display:block;color:var(--muted);font-size:12px}
+.stat b{font-size:18px}
+.progress{height:8px;border-radius:9px;background:#e4ebe5;overflow:hidden;margin-top:8px}
+.progress span{display:block;height:100%;background:var(--green);width:0}
+.item{display:grid;grid-template-columns:24px minmax(0,1fr) 90px;gap:8px;align-items:center;padding:10px 0;border-bottom:1px solid #edf1ed}
+.item input[type=checkbox]{width:19px;height:19px;accent-color:var(--green)}
+.iname{font-weight:650}
+.qty,.muted{font-size:13px;color:var(--muted)}
+.price{padding:7px;font-size:14px}
+.group-title{font-size:14px;color:var(--green);font-weight:800;margin:14px 0 3px}
+.note{background:var(--orange);padding:10px 12px;border-radius:10px;font-size:13px}
+footer{text-align:center;color:var(--muted);font-size:12px;padding:20px}
+@media(max-width:460px){.stats{grid-template-columns:repeat(2,1fr)}.item{grid-template-columns:24px minmax(0,1fr) 78px}.stat b{font-size:16px}}
 </style>
 </head>
 <body>
 <header>
-<h1>🛒 Mes Courses</h1>
-<div>Menus malins · Budget maîtrisé · E.Leclerc Drive Le Mans Nord</div>
+<h1>🛒 Mes Courses Leclerc</h1>
+<p>Menus • batch cooking • quantités • budget</p>
+<p>Drive : Le Mans Nord – Rhin et Danube</p>
 </header>
 
 <main>
 <section class="card">
-<h2>Ma semaine</h2>
+<h2>1. Mes paramètres</h2>
 <div class="grid">
-<div>
-<label for="budget">Budget cible (€)</label>
-<input id="budget" type="number" value="130" min="1">
-</div>
-<div>
-<label for="people">Dîners pour</label>
-<select id="people">
-<option value="3" selected>3 personnes</option>
-<option value="4">4 personnes</option>
-</select>
-</div>
-<div>
-<label for="days">Durée</label>
-<select id="days">
-<option value="7" selected>7 jours</option>
-<option value="5">5 jours</option>
-</select>
-</div>
-<div>
-<label for="style">Objectif</label>
-<select id="style">
-<option>Perte de poids</option>
-<option>Équilibré et économique</option>
-<option>Familial et rapide</option>
-</select>
-</div>
+<div class="field"><label for="budget">Budget cible (€)</label><input id="budget" type="number" min="0" value="130"></div>
+<div class="field"><label for="days">Nombre de jours</label><select id="days"><option value="5">5 jours</option><option value="7" selected>7 jours</option></select></div>
+<div class="field"><label for="dinners">Personnes au dîner</label><select id="dinners"><option>1</option><option>2</option><option selected>3</option><option>4</option><option>5</option><option>6</option></select></div>
+<div class="field"><label for="lunches">Personnes au déjeuner</label><select id="lunches"><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option><option>6</option></select></div>
+<div class="field"><label for="style">Objectif alimentaire</label><select id="style"><option value="weight" selected>Perte de poids</option><option value="balanced">Équilibré familial</option><option value="vegetarian">Végétarien</option></select></div>
+<div class="field"><label for="batch">Organisation</label><select id="batch"><option value="yes" selected>Batch cooking</option><option value="no">Cuisine au jour le jour</option></select></div>
 </div>
 <div class="actions">
-<button id="generate">Actualiser les menus</button>
-<button class="alt" id="reset">Décocher la liste</button>
+<button class="primary" id="generate">🔄 Recalculer les courses</button>
+<button class="secondary" id="reset">Réinitialiser</button>
 </div>
-<p class="small">
-Hypothèse : dîners pour 3 personnes et gamelles pour 2 adultes.
-Les quantités sont des estimations à adapter selon les stocks.
-</p>
+<p class="muted">Prix estimatifs, modifiables, non récupérés en direct du catalogue Leclerc.</p>
 </section>
 
 <section class="card">
-<div class="row">
-<h2>Menus de la semaine</h2>
-<span class="pill">Batch cooking</span>
-</div>
+<h2>2. Menus de la semaine</h2>
+<p class="muted">Modifie un repas : la liste de courses se met à jour.</p>
 <div id="menus"></div>
-<p class="small">
-<b>Préparation conseillée :</b> cuire du riz pour plusieurs repas,
-préparer une grande sauce tomate, rôtir des légumes et portionner
-les restes. Réfrigérer rapidement dans des boîtes fermées.
-</p>
 </section>
 
 <section class="card">
-<div class="row">
-<h2>Liste de courses</h2>
-<span id="progress" class="small"></span>
+<h2>3. Budget et avancement</h2>
+<div class="stats">
+<div class="stat"><small>Budget cible</small><b id="budgetStat">130 €</b></div>
+<div class="stat"><small>Total estimé</small><b id="total">0 €</b></div>
+<div class="stat"><small>Articles à acheter</small><b id="remaining">0</b></div>
 </div>
-<p class="small">
-Coche les produits déjà disponibles. Saisis uniquement les prix
-vérifiés dans ton Drive.
-</p>
-<div id="items"></div>
-<div class="row" style="margin-top:14px">
-<div>
-<div class="small">Total des prix renseignés</div>
-<div class="total" id="total">0,00 €</div>
-</div>
-<div id="missing" class="small"></div>
-</div>
-<p class="warn">
-Les prix ne sont pas récupérés automatiquement du catalogue E.Leclerc.
-Le total inclut uniquement les prix que tu renseignes.
-</p>
+<div class="progress"><span id="progress"></span></div>
+<p class="muted" id="budgetMessage"></p>
+</section>
+
+<section class="card">
+<h2>4. Liste de courses</h2>
+<p class="muted">Coche ce que tu as déjà. Le total exclut les produits cochés.</p>
 <div class="actions">
-<button id="copy" class="alt">Copier la liste restante</button>
-<button id="csv" class="alt">Exporter CSV</button>
+<button class="secondary" id="uncheck">Tout décocher</button>
+<button class="secondary" id="copy">📋 Copier la liste</button>
+<button class="secondary" id="csv">Exporter CSV</button>
 </div>
+<div id="shopping"></div>
+<p class="note">Le total est une estimation par référence produit. Il ne calcule pas encore le nombre exact de paquets à acheter. Corrige les prix avec ceux du Drive lorsque tu les connais.</p>
 </section>
 
 <section class="card">
-<h2>Mon Drive</h2>
-<p class="small">
-Connecte-toi uniquement sur le site officiel. L'ouverture du Drive
-ne modifie pas automatiquement ton panier.
-</p>
-<a target="_blank" rel="noopener"
-href="https://www.leclercdrive.fr/">
-Ouvrir E.Leclerc Drive ↗
-</a>
+<h2>5. Ouvrir le Drive</h2>
+<p>Magasin choisi : <strong>Le Mans Nord – Rhin et Danube</strong>.</p>
+<a class="button primary" href="https://www.leclercdrive.fr/" target="_blank" rel="noopener">Ouvrir E.Leclerc Drive ↗</a>
+<p class="muted">Le panier n'est pas rempli automatiquement.</p>
 </section>
 </main>
+<footer>Données enregistrées sur cet appareil. Aucun mot de passe n'est demandé ni enregistré.</footer>
 
 <script>
-const KEY = "mesCoursesSmartV1";
+const STORE_KEY='mesCoursesSmartV2';
 
-const recipes = [
-["Lundi","Poulet au four, riz et légumes","30 min",
-"Poulet, riz, carottes et légumes rôtis. Préparer du riz et des légumes en plus pour les gamelles."],
-["Mardi","Dahl de lentilles corail","25 min",
-"Lentilles, tomates, carottes, oignon et épices. Prévoir des portions supplémentaires pour le déjeuner."],
-["Mercredi","Bolognaise aux légumes et pâtes complètes","30 min",
-"Viande hachée, pâtes, tomates, oignon et courgette. Préparer une grande sauce pour les restes."],
-["Jeudi","Gratin de pommes de terre et légumes","35 min",
-"Pommes de terre, légumes, lait et un peu de fromage râpé."],
-["Vendredi","Bowl de riz, thon et pois chiches","15 min",
-"Réutiliser le riz restant, avec thon, pois chiches et crudités."],
-["Samedi","Omelette aux légumes et salade","20 min",
-"Œufs, légumes restants, salade et pain complet si souhaité."],
-["Dimanche","Soupe maison et tartines protéinées","30 min",
-"Carottes, pommes de terre, oignon et lentilles restantes."]
-];
-
-const initial = [
-["Viande & poisson","Poulet sans peau","700 g"],
-["Viande & poisson","Viande hachée maigre","400 g"],
-["Viande & poisson","Thon au naturel","2 boîtes"],
-["Œufs & frais","Œufs","12"],
-["Produits laitiers","Fromage blanc nature","1 kg"],
-["Produits laitiers","Lait demi-écrémé","1 L"],
-["Produits laitiers","Fromage râpé","150 g"],
-["Fruits & légumes","Carottes","1,5 kg"],
-["Fruits & légumes","Courgettes","2"],
-["Fruits & légumes","Pommes de terre","2 kg"],
-["Fruits & légumes","Oignons","1 kg"],
-["Fruits & légumes","Salade ou concombre","2 pièces"],
-["Fruits & légumes","Légumes surgelés nature","1 kg"],
-["Épicerie","Riz","1 kg"],
-["Épicerie","Pâtes complètes","500 g"],
-["Épicerie","Lentilles","500 g"],
-["Épicerie","Pois chiches","2 boîtes"],
-["Épicerie","Tomates concassées","3 boîtes"],
-["Épicerie","Pain complet","1 pain"],
-["Fruits","Fruits de saison","2–3 kg"],
-["Placards","Huile, épices, moutarde","Vérifier les stocks"]
-].map((x,i)=>({
-id:i,cat:x[0],name:x[1],qty:x[2],checked:false,price:""
-}));
-
-let state;
-try {
-  state = JSON.parse(localStorage.getItem(KEY) || "null");
-} catch(e) {}
-
-if(!state || !Array.isArray(state.items)){
-  state = {
-    budget:130,
-    people:3,
-    days:7,
-    style:"Perte de poids",
-    items:initial
-  };
-}
-
-const $ = id => document.getElementById(id);
-
-function save(){
-  try {
-    localStorage.setItem(KEY,JSON.stringify(state));
-  } catch(e) {}
-}
-
-function renderMenus(){
-  const n = Number(state.days);
-  $("menus").innerHTML = recipes.slice(0,n).map(r =>
-    '<div class="menu">' +
-    '<div class="row"><b>'+r[0]+' — '+r[1]+'</b>' +
-    '<span class="pill">'+r[2]+'</span></div>' +
-    '<p>'+r[3]+'</p></div>'
-  ).join("");
-}
-
-function renderItems(){
-  let total=0,known=0,checked=0;
-  $("items").innerHTML="";
-
-  state.items.forEach(g=>{
-    if(g.checked) checked++;
-    if(g.price!==""){
-      total += Number(g.price)||0;
-      known++;
-    }
-
-    const d=document.createElement("div");
-    d.className="item";
-    d.innerHTML =
-      '<input type="checkbox" aria-label="Déjà à la maison" '+
-      (g.checked?'checked':'')+'>' +
-      '<div class="desc"><b></b><div class="small"></div></div>' +
-      '<input class="price" type="number" min="0" step="0.01" '+
-      'inputmode="decimal" placeholder="Prix €" aria-label="Prix vérifié">';
-
-    d.querySelector(".desc b").textContent=g.name;
-    d.querySelector(".small").textContent=g.cat+" · "+g.qty;
-    d.querySelector(".price").value=g.price;
-
-    d.querySelector('input[type="checkbox"]').onchange=e=>{
-      g.checked=e.target.checked;
-      save();
-      renderItems();
-    };
-
-    d.querySelector(".price").onchange=e=>{
-      g.price=e.target.value;
-      save();
-      renderItems();
-    };
-
-    $("items").appendChild(d);
-  });
-
-  $("total").textContent=total.toLocaleString("fr-FR",{
-    style:"currency",currency:"EUR"
-  });
-  $("progress").textContent=checked+"/"+state.items.length+" cochés";
-  $("missing").textContent=known+"/"+state.items.length+" prix saisis";
-}
-
-function render(){
-  $("budget").value=state.budget;
-  $("people").value=state.people;
-  $("days").value=state.days;
-  $("style").value=state.style;
-  renderMenus();
-  renderItems();
-}
-
-$("generate").onclick=()=>{
-  state.budget=Number($("budget").value)||130;
-  state.people=Number($("people").value);
-  state.days=Number($("days").value);
-  state.style=$("style").value;
-  save();
-  render();
+const recipes={
+chicken:{name:'Poulet, riz et légumes',type:'dinner',ingredients:{Poulet:160,Riz:70,Carottes:100,Courgettes:100,Oignon:25}},
+lentils:{name:'Dahl de lentilles et riz',type:'dinner',ingredients:{'Lentilles corail':90,Riz:60,'Lait de coco':60,'Tomates concassées':100,Oignon:30,'Épinards surgelés':80}},
+bolognese:{name:'Pâtes bolognaise maison',type:'dinner',ingredients:{Pâtes:90,'Bœuf haché 5%':100,'Tomates concassées':120,Carottes:50,Oignon:25}},
+gratin:{name:'Gratin pommes de terre, légumes et dinde',type:'dinner',ingredients:{'Pommes de terre':220,Dinde:130,'Brocoli surgelé':100,'Crème légère':40,'Fromage râpé':25}},
+tuna:{name:'Salade de riz, thon et pois chiches',type:'lunch',ingredients:{Riz:75,'Thon en boîte':80,'Pois chiches':80,Tomates:100,Concombre:80}},
+omelette:{name:'Omelette, salade et pain complet',type:'dinner',ingredients:{Œufs:2,Salade:80,'Pain complet':70,Champignons:80}},
+soup:{name:'Soupe de légumes et tartines',type:'dinner',ingredients:{'Pommes de terre':100,Carottes:100,Poireaux:100,Oignon:25,'Pain complet':80,'Fromage frais':30}},
+wrap:{name:'Wrap poulet crudités',type:'lunch',ingredients:{Tortillas:2,Poulet:100,Salade:40,Tomates:80,'Yaourt nature':30}},
+pastaSalad:{name:'Salade de pâtes au thon',type:'lunch',ingredients:{Pâtes:80,'Thon en boîte':80,'Maïs en boîte':50,Tomates:100,Concombre:80}},
+chickpea:{name:'Curry pois chiches et légumes',type:'dinner',ingredients:{'Pois chiches':150,Riz:60,'Lait de coco':60,'Tomates concassées':100,'Épinards surgelés':80,Oignon:30}},
+fish:{name:'Poisson, pommes de terre et haricots verts',type:'dinner',ingredients:{'Poisson surgelé':160,'Pommes de terre':220,'Haricots verts surgelés':150,Citron:20}},
+turkey:{name:'Émincé de dinde, semoule et légumes',type:'dinner',ingredients:{Dinde:150,Semoule:70,Courgettes:100,Carottes:100,Oignon:25}},
+quiche:{name:'Quiche légumes et salade',type:'dinner',ingredients:{'Pâte brisée':0.25,Œufs:1,'Crème légère':40,'Fromage râpé':20,Poireaux:100,Salade:60}},
+beanSalad:{name:'Salade pois chiches et œufs',type:'lunch',ingredients:{'Pois chiches':120,Œufs:1,Tomates:100,Concombre:80,Salade:40,'Pain complet':50}},
+tofu:{name:'Tofu, riz et légumes sautés',type:'dinner',ingredients:{Tofu:150,Riz:70,Carottes:100,Courgettes:100,'Sauce soja':15}},
+veggiePasta:{name:'Pâtes aux légumes et lentilles',type:'dinner',ingredients:{Pâtes:80,'Lentilles corail':60,'Tomates concassées':120,Courgettes:100,Oignon:25}}
 };
 
-$("reset").onclick=()=>{
-  state.items.forEach(g=>g.checked=false);
-  save();
-  renderItems();
+const plans={
+weight:{dinner:['chicken','lentils','bolognese','gratin','chickpea','fish','omelette'],lunch:['tuna','wrap','pastaSalad','beanSalad','tuna','wrap','pastaSalad']},
+balanced:{dinner:['chicken','bolognese','fish','gratin','turkey','omelette','soup'],lunch:['tuna','wrap','pastaSalad','beanSalad','tuna','wrap','pastaSalad']},
+vegetarian:{dinner:['lentils','chickpea','omelette','veggiePasta','gratin','tofu','soup'],lunch:['beanSalad','pastaSalad','beanSalad','beanSalad','pastaSalad','beanSalad','pastaSalad']}
 };
 
-$("copy").onclick=async()=>{
-  const text=state.items
-    .filter(g=>!g.checked)
-    .map(g=>g.name+" — "+g.qty)
-    .join("\n");
+const groups={
+'Fruits et légumes':['Carottes','Courgettes','Oignon','Épinards surgelés','Tomates','Concombre','Brocoli surgelé','Salade','Champignons','Poireaux','Haricots verts surgelés','Citron'],
+'Viandes, poissons et alternatives':['Poulet','Bœuf haché 5%','Dinde','Poisson surgelé','Thon en boîte','Tofu'],
+'Féculents et conserves':['Riz','Pâtes','Lentilles corail','Pois chiches','Tomates concassées','Maïs en boîte','Semoule','Pommes de terre','Tortillas','Pain complet','Pâte brisée'],
+'Frais et épicerie':['Lait de coco','Crème légère','Fromage râpé','Œufs','Yaourt nature','Fromage frais','Sauce soja']
+};
 
-  try {
-    await navigator.clipboard.writeText(text);
-    alert("Liste copiée.");
-  } catch(e) {
-    prompt("Copie la liste :",text);
+const estimatedPrices={
+Poulet:9.49,Riz:1.50,Carottes:1.49,Courgettes:2.50,Oignon:1.50,
+'Lentilles corail':2.00,'Lait de coco':1.20,'Tomates concassées':0.80,'Épinards surgelés':1.80,
+Pâtes:0.75,'Bœuf haché 5%':5.50,'Pommes de terre':2.00,Dinde:5.50,
+'Brocoli surgelé':1.80,'Crème légère':1.30,'Fromage râpé':1.70,'Thon en boîte':1.60,
+'Pois chiches':0.90,Tomates:2.50,Concombre:1.20,Œufs:2.80,Salade:1.40,
+'Pain complet':1.80,Champignons:1.80,Poireaux:2.00,Tortillas:1.70,
+'Yaourt nature':1.50,'Maïs en boîte':0.90,'Poisson surgelé':5.00,'Haricots verts surgelés':1.80,
+Citron:0.60,Semoule:1.20,'Pâte brisée':1.30,'Fromage frais':1.50,
+'Sauce soja':1.80,Tofu:2.50
+};
+
+let state={budget:130,days:7,dinners:3,lunches:2,style:'weight',batch:'yes',menus:[],checked:{},prices:{...estimatedPrices}};
+const $=id=>document.getElementById(id);
+
+function load(){
+ try{
+  const saved=JSON.parse(localStorage.getItem(STORE_KEY)||'null');
+  if(saved)state={...state,...saved};
+ }catch(e){}
+ state.prices={...estimatedPrices,...(state.prices||{})};
+}
+function save(){localStorage.setItem(STORE_KEY,JSON.stringify(state))}
+function defaults(){
+ const p=plans[state.style]||plans.weight;
+ state.menus=[];
+ for(let i=0;i<state.days;i++)state.menus.push({dinner:p.dinner[i%p.dinner.length],lunch:p.lunch[i%p.lunch.length]});
+}
+function setInputs(){
+ $('budget').value=state.budget;
+ $('days').value=state.days;
+ $('dinners').value=state.dinners;
+ $('lunches').value=state.lunches;
+ $('style').value=state.style;
+ $('batch').value=state.batch;
+}
+function readInputs(){
+ state.budget=Math.max(0,Number($('budget').value)||0);
+ state.days=Number($('days').value);
+ state.dinners=Number($('dinners').value);
+ state.lunches=Number($('lunches').value);
+ state.style=$('style').value;
+ state.batch=$('batch').value;
+}
+function makeMenus(){
+ const names=['Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi','Dimanche'];
+ $('menus').innerHTML='';
+ state.menus.slice(0,state.days).forEach((m,i)=>{
+  const div=document.createElement('div');
+  div.className='day';
+  div.innerHTML=`
+   <div class="dayhead"><strong>${names[i]}</strong><span class="muted">Dîner × ${state.dinners} · Déjeuner × ${state.lunches}</span></div>
+   <div class="meal"><label>Déjeuner à emporter</label>
+   <select data-day="${i}" data-kind="lunch">
+   ${Object.keys(recipes).filter(k=>recipes[k].type==='lunch').map(k=>`<option value="${k}" ${m.lunch===k?'selected':''}>${recipes[k].name}</option>`).join('')}
+   </select></div>
+   <div class="meal"><label>Dîner</label>
+   <select data-day="${i}" data-kind="dinner">
+   ${Object.keys(recipes).filter(k=>recipes[k].type==='dinner').map(k=>`<option value="${k}" ${m.dinner===k?'selected':''}>${recipes[k].name}</option>`).join('')}
+   </select></div>`;
+  $('menus').appendChild(div);
+ });
+ $('menus').querySelectorAll('select').forEach(sel=>sel.addEventListener('change',e=>{
+  const el=e.target;
+  state.menus[Number(el.dataset.day)][el.dataset.kind]=el.value;
+  renderShopping();save();
+ }));
+}
+function quantityMap(){
+ const map={};
+ state.menus.slice(0,state.days).forEach(m=>{
+  for(const [key,n] of [[m.dinner,state.dinners],[m.lunch,state.lunches]]){
+   const r=recipes[key];
+   if(!r)return;
+   Object.entries(r.ingredients).forEach(([name,qty])=>{
+    if(qty!==0)map[name]=(map[name]||0)+qty*n;
+   });
   }
-};
-
-$("csv").onclick=()=>{
-  const rows=[
-    ["Rayon","Produit","Quantité","Prix renseigné","Déjà à la maison"],
-    ...state.items.map(g=>[
-      g.cat,g.name,g.qty,g.price,g.checked?"oui":"non"
-    ])
-  ];
-
-  const csv=rows.map(r=>
-    r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(";")
-  ).join("\r\n");
-
-  const blob=new Blob(["\ufeff"+csv],{
-    type:"text/csv;charset=utf-8;"
+ });
+ return map;
+}
+function fmtQty(name,q){
+ if(name==='Œufs')return `${Math.ceil(q)} unité${Math.ceil(q)>1?'s':''}`;
+ return q>=1000?`${(q/1000).toLocaleString('fr-FR',{maximumFractionDigits:1})} kg`:`${Math.ceil(q/10)*10} g`;
+}
+function renderShopping(){
+ const map=quantityMap();
+ $('shopping').innerHTML='';
+ let total=0,remaining=0;
+ Object.entries(groups).forEach(([group,names])=>{
+  const relevant=names.filter(n=>map[n]);
+  if(!relevant.length)return;
+  const h=document.createElement('div');
+  h.className='group-title';h.textContent=group;$('shopping').appendChild(h);
+  relevant.forEach(name=>{
+   const checked=!!state.checked[name],price=state.prices[name]??'';
+   if(!checked){
+    remaining++;
+    if(price!==''&&Number.isFinite(Number(price)))total+=Number(price);
+   }
+   const row=document.createElement('div');
+   row.className='item';
+   row.innerHTML=`<input type="checkbox" aria-label="Déjà disponible : ${name}" ${checked?'checked':''}>
+   <div><div class="iname">${name}</div><div class="qty">${fmtQty(name,map[name])} à prévoir</div></div>
+   <input class="price" type="number" min="0" step="0.01" inputmode="decimal" placeholder="Prix €" aria-label="Prix paquet ${name}" value="${price}">`;
+   row.querySelector('input[type=checkbox]').addEventListener('change',e=>{
+    state.checked[name]=e.target.checked;renderShopping();save();
+   });
+   row.querySelector('.price').addEventListener('change',e=>{
+    state.prices[name]=e.target.value;renderShopping();save();
+   });
+   $('shopping').appendChild(row);
   });
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement("a");
-  a.href=url;
-  a.download="mes-courses-leclerc.csv";
-  a.click();
-  URL.revokeObjectURL(url);
-};
-
-save();
+ });
+ $('budgetStat').textContent=state.budget.toLocaleString('fr-FR')+' €';
+ $('total').textContent=total.toLocaleString('fr-FR',{style:'currency',currency:'EUR'});
+ $('remaining').textContent=remaining;
+ $('progress').style.width=(state.budget?Math.min(100,total/state.budget*100):0)+'%';
+ $('budgetMessage').textContent=total===0?'Prix indicatifs préremplis : vérifie-les et adapte-les à ton Drive.':
+ total<=state.budget?`Il reste ${(state.budget-total).toLocaleString('fr-FR',{style:'currency',currency:'EUR'})} sur le budget selon les prix saisis.`:
+ `Budget dépassé de ${(total-state.budget).toLocaleString('fr-FR',{style:'currency',currency:'EUR'})} selon les prix saisis.`;
+ save();
+}
+function render(){setInputs();makeMenus();renderShopping()}
+function rebuild(){readInputs();defaults();render()}
+$('generate').addEventListener('click',rebuild);
+['budget','days','dinners','lunches','style','batch'].forEach(id=>$(id).addEventListener('change',()=>{
+ if(id==='days'||id==='style'){readInputs();defaults();render()}
+ else{readInputs();makeMenus();renderShopping()}
+}));
+$('reset').addEventListener('click',()=>{
+ state={budget:130,days:7,dinners:3,lunches:2,style:'weight',batch:'yes',menus:[],checked:{},prices:{...estimatedPrices}};
+ defaults();render();
+});
+$('uncheck').addEventListener('click',()=>{state.checked={};renderShopping()});
+function listText(){
+ const map=quantityMap();
+ let out='MES COURSES — E.Leclerc Drive Le Mans Nord\n';
+ Object.entries(groups).forEach(([g,names])=>{
+  const a=names.filter(n=>map[n]&&!state.checked[n]);
+  if(a.length){
+   out+='\n'+g+'\n';
+   a.forEach(n=>out+=`- ${n} : ${fmtQty(n,map[n])} — estimation ${state.prices[n]??'?'} €\n`);
+  }
+ });
+ return out;
+}
+$('copy').addEventListener('click',async()=>{
+ const txt=listText();
+ try{await navigator.clipboard.writeText(txt);$('copy').textContent='✓ Liste copiée'}
+ catch(e){
+  const ta=document.createElement('textarea');ta.value=txt;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();$('copy').textContent='✓ Liste copiée';
+ }
+});
+$('csv').addEventListener('click',()=>{
+ const map=quantityMap();
+ const rows=[['Rayon','Produit','Quantité indicative','Prix estimatif (€)','Déjà disponible']];
+ Object.entries(groups).forEach(([g,names])=>names.forEach(n=>{
+  if(map[n])rows.push([g,n,fmtQty(n,map[n]),state.prices[n]||'',state.checked[n]?'Oui':'Non']);
+ }));
+ const csv=rows.map(r=>r.map(x=>'"'+String(x).replace(/"/g,'""')+'"').join(';')).join('\r\n');
+ const blob=new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8;'});
+ const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='mes-courses-leclerc.csv';a.click();URL.revokeObjectURL(a.href);
+});
+load();
+if(!state.menus||state.menus.length===0)defaults();
+state.menus=state.menus.slice(0,state.days);
+while(state.menus.length<state.days){
+ const p=plans[state.style]||plans.weight,i=state.menus.length;
+ state.menus.push({dinner:p.dinner[i%p.dinner.length],lunch:p.lunch[i%p.lunch.length]});
+}
 render();
 </script>
 </body>
 </html>
-
