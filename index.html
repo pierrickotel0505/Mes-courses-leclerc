@@ -14,8 +14,7 @@ header h1{margin:0 0 6px;font-size:26px}
 header p{margin:0;opacity:.9}
 main{max-width:1050px;margin:auto;padding:14px}
 nav{display:flex;gap:7px;overflow:auto;padding:8px 0 14px}
-nav button{white-space:nowrap}
-button,.btn{border:0;border-radius:9px;padding:10px 13px;background:var(--green);color:white;font-weight:bold;cursor:pointer}
+button{border:0;border-radius:9px;padding:10px 13px;background:var(--green);color:white;font-weight:bold;cursor:pointer}
 button.secondary{background:#e2ebe5;color:var(--text)}
 button.danger{background:#a83c3c}
 button.small{padding:6px 9px;font-size:12px}
@@ -36,24 +35,25 @@ input[type=checkbox]{width:auto}
 .daytitle{padding:10px 12px;background:var(--light);font-weight:bold}
 .meal{padding:10px 12px;border-top:1px solid var(--border)}
 .meal select{margin:5px 0}
+.total{font-size:23px;font-weight:bold;color:var(--green)}
+.actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}
+.checkline{display:flex;align-items:center;gap:8px;font-weight:normal}
+.recipe{border:1px solid var(--border);border-radius:10px;padding:12px;margin:8px 0}
+.recipe p{margin:6px 0}
 table{width:100%;border-collapse:collapse}
 th,td{text-align:left;border-bottom:1px solid var(--border);padding:9px 5px;vertical-align:middle}
 th{font-size:12px;color:#65746a}
-td input,td select{padding:7px;min-width:65px}
-.total{font-size:23px;font-weight:bold;color:var(--green)}
-.recipe{border:1px solid var(--border);border-radius:10px;padding:12px;margin:8px 0}
-.recipe p{margin:6px 0}
-.actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px}
-.checkline{display:flex;align-items:center;gap:8px;font-weight:normal}
+td input{padding:7px;min-width:55px}
 footer{text-align:center;color:#6c786f;padding:20px;font-size:12px}
-@media(max-width:600px){main{padding:10px}.card{padding:12px}th,td{font-size:12px}td input{min-width:55px}}
+@media(max-width:600px){main{padding:10px}.card{padding:12px}th,td{font-size:12px}}
 </style>
 </head>
 <body>
 <header>
-  <h1>🛒 Mes Courses</h1>
-  <p>Menus Cookeo · Courses optimisées · Budget maîtrisé</p>
+<h1>🛒 Mes Courses</h1>
+<p>Menus Cookeo · Courses optimisées · Budget maîtrisé</p>
 </header>
+
 <main>
 <nav>
 <button onclick="tab('menus')">📅 Menus</button>
@@ -66,49 +66,59 @@ footer{text-align:center;color:#6c786f;padding:20px;font-size:12px}
 <div class="card">
 <h2>Mon budget de la semaine</h2>
 <div class="grid">
-<div><label>Budget (€)</label><input id="budget" type="number" min="0" step="5" value="130" onchange="saveSettings()"></div>
-<div><label>Personnes au dîner</label><input id="dinnerPeople" type="number" min="1" max="12" value="3" onchange="saveSettings();renderMenus()"></div>
-<div><label>Personnes au déjeuner</label><input id="lunchPeople" type="number" min="1" max="12" value="2" onchange="saveSettings();renderMenus()"></div>
+<div><label>Budget (€)</label><input id="budget" type="number" min="0" value="130" onchange="saveSettings()"></div>
+<div><label>Personnes au dîner</label><input id="dinnerPeople" type="number" min="1" max="12" value="3" onchange="saveSettings()"></div>
+<div><label>Personnes au déjeuner</label><input id="lunchPeople" type="number" min="1" max="12" value="2" onchange="saveSettings()"></div>
 </div>
-<p class="muted">Les quantités des recettes sont indiquées par personne. Modifie les ingrédients et les prix dans l'onglet Recettes.</p>
-<label class="checkline"><input type="checkbox" id="leftovers" onchange="saveSettings();renderMenus()"> Réutiliser le dîner pour le déjeuner du lendemain</label>
+<label class="checkline"><input type="checkbox" id="leftovers" onchange="saveSettings()"> Réutiliser le dîner pour le déjeuner du lendemain</label>
+<p class="muted">Lorsque cette option est activée, chaque dîner du lundi au samedi prévoit aussi les portions du déjeuner suivant. Le déjeuner du lundi reste à choisir séparément.</p>
 </div>
+
 <div class="card">
 <div class="row"><h2 style="flex:3">Menu de la semaine</h2><button class="secondary" onclick="clearMenus()">Vider les menus</button></div>
 <div id="menuList"></div>
-<div class="actions"><button onclick="renderShopping();tab('courses')">Générer ma liste de courses</button><button class="secondary" onclick="randomMenus()">Remplir au hasard</button></div>
+<div class="actions">
+<button onclick="tab('courses')">Générer ma liste de courses</button>
+<button class="secondary" onclick="randomMenus()">Remplir au hasard</button>
+</div>
 </div>
 </section>
 
 <section id="courses" class="panel">
 <div class="card">
 <h2>🛒 Liste de courses</h2>
-<p class="muted">Les ingrédients identiques sont regroupés. Coche les articles achetés. Les prix sont estimatifs et modifiables dans les recettes.</p>
+<p class="muted">Les ingrédients identiques sont regroupés. Les quantités comprennent les portions supplémentaires préparées pour les déjeuners reportés.</p>
 <div class="grid">
-<div><label>Budget cible (€)</label><input id="budgetCourses" type="number" value="130" onchange="document.getElementById('budget').value=this.value;saveSettings();renderShopping()"></div>
+<div><label>Budget cible (€)</label><input id="budgetCourses" type="number" value="130" onchange="syncBudget(this.value)"></div>
 <div><label>Coût estimé</label><div id="shoppingTotal" class="total">0,00 €</div></div>
 </div>
 <p id="budgetMessage"></p>
 <div id="shoppingList"></div>
-<div class="actions"><button onclick="exportCSV()">Exporter en CSV</button><button class="secondary" onclick="uncheckAll()">Tout décocher</button><button class="secondary" onclick="renderShopping()">Actualiser</button></div>
+<div class="actions">
+<button onclick="exportCSV()">Exporter en CSV</button>
+<button class="secondary" onclick="uncheckAll()">Tout décocher</button>
+</div>
 </div>
 </section>
 
 <section id="recettes" class="panel">
 <div class="card">
 <h2>🍲 Mes recettes Cookeo</h2>
-<p class="muted">20 recettes de départ. Les ingrédients sont modifiables. Les quantités sont par personne. Les prix par unité sont des estimations.</p>
+<p class="muted">20 recettes de départ. Les quantités sont par personne. Les prix sont des estimations modifiables.</p>
 <div class="grid">
 <div><label>Rechercher</label><input id="searchRecipe" placeholder="Nom de recette..." oninput="renderRecipes()"></div>
-<div><label>Filtrer</label><select id="filterRecipe" onchange="renderRecipes()"><option value="">Toutes les recettes</option><option>Viande</option><option>Poulet</option><option>Poisson</option><option>Végétarien</option><option>Soupe</option></select></div>
+<div><label>Catégorie</label><select id="filterRecipe" onchange="renderRecipes()">
+<option value="">Toutes les recettes</option><option>Viande</option><option>Poulet</option><option>Poisson</option><option>Végétarien</option><option>Soupe</option>
+</select></div>
 </div>
 <div id="recipeList"></div>
 </div>
+
 <div class="card">
 <h2>➕ Ajouter une recette</h2>
 <label>Nom de la recette</label><input id="newName" placeholder="Ex. Poulet aux légumes">
 <label>Catégorie</label><select id="newCategory"><option>Viande</option><option>Poulet</option><option>Poisson</option><option>Végétarien</option><option>Soupe</option></select>
-<label>Ingrédients (un par ligne : nom;quantité;unité;prix par unité)</label>
+<label>Ingrédients (un par ligne : nom;quantité;unité;prix au kg/L ou à la pièce)</label>
 <textarea id="newIngredients" rows="5" placeholder="Poulet;170;g;10&#10;Carottes;100;g;2&#10;Riz;70;g;3"></textarea>
 <p class="muted">Exemple : Poulet;170;g;10 signifie 170 g par personne et 10 €/kg. Pour les pièces, le prix est par pièce.</p>
 <button onclick="addRecipe()">Ajouter la recette</button>
@@ -117,10 +127,13 @@ footer{text-align:center;color:#6c786f;padding:20px;font-size:12px}
 
 <section id="reglages" class="panel">
 <div class="card">
-<h2>⚙️ Réglages</h2>
-<p>Les menus, recettes personnalisées, quantités et prix sont sauvegardés sur ce téléphone dans le navigateur.</p>
-<label>Budget hebdomadaire (€)</label><input id="budgetSettings" type="number" value="130" onchange="document.getElementById('budget').value=this.value;saveSettings()">
-<div class="actions"><button onclick="downloadBackup()">Sauvegarder mes données</button><button class="secondary" onclick="document.getElementById('backupFile').click()">Restaurer une sauvegarde</button><input id="backupFile" type="file" accept=".json,application/json" style="display:none" onchange="restoreBackup(event)"></div>
+<h2>⚙️ Réglages et sauvegarde</h2>
+<p>Les recettes, menus, prix et paramètres sont enregistrés dans le navigateur de ce téléphone.</p>
+<div class="actions">
+<button onclick="downloadBackup()">Sauvegarder mes données</button>
+<button class="secondary" onclick="document.getElementById('backupFile').click()">Restaurer une sauvegarde</button>
+<input id="backupFile" type="file" accept=".json,application/json" style="display:none" onchange="restoreBackup(event)">
+</div>
 <hr style="border:0;border-top:1px solid var(--border);margin:18px 0">
 <button class="danger" onclick="resetApp()">Réinitialiser l'application</button>
 <p class="muted">Attention : la réinitialisation efface les données locales de cette application.</p>
@@ -154,18 +167,23 @@ const defaults = [
 ];
 
 let recipes,menus,checkedItems,settings;
-function freshRecipes(){return defaults.map((r,i)=>({id:i+1,name:r.name,cat:r.cat,ing:r.ing.map(x=>({name:x[0],q:x[1],u:x[2],price:x[3]})),custom:false}));}
+function freshRecipes(){
+ return defaults.map((r,i)=>({id:i+1,name:r.name,cat:r.cat,ing:r.ing.map(x=>({name:x[0],q:x[1],u:x[2],price:x[3]})),custom:false}));
+}
 function load(){
  try{recipes=JSON.parse(localStorage.getItem('mc_recipes'))||freshRecipes()}catch(e){recipes=freshRecipes()}
  try{menus=JSON.parse(localStorage.getItem('mc_menus'))||Array.from({length:7},()=>({lunch:"",dinner:""}))}catch(e){menus=Array.from({length:7},()=>({lunch:"",dinner:""}))}
  try{settings=JSON.parse(localStorage.getItem('mc_settings'))||{budget:130,dinnerPeople:3,lunchPeople:2,leftovers:false}}catch(e){settings={budget:130,dinnerPeople:3,lunchPeople:2,leftovers:false}}
  try{checkedItems=JSON.parse(localStorage.getItem('mc_checked'))||[]}catch(e){checkedItems=[]}
+ settings.budget=settings.budget??130;
+ settings.dinnerPeople=settings.dinnerPeople??3;
+ settings.lunchPeople=settings.lunchPeople??2;
+ settings.leftovers=!!settings.leftovers;
  document.getElementById('budget').value=settings.budget;
  document.getElementById('budgetCourses').value=settings.budget;
- document.getElementById('budgetSettings').value=settings.budget;
  document.getElementById('dinnerPeople').value=settings.dinnerPeople;
  document.getElementById('lunchPeople').value=settings.lunchPeople;
- document.getElementById('leftovers').checked=!!settings.leftovers;
+ document.getElementById('leftovers').checked=settings.leftovers;
 }
 function persist(){
  localStorage.setItem('mc_recipes',JSON.stringify(recipes));
@@ -173,14 +191,29 @@ function persist(){
  localStorage.setItem('mc_settings',JSON.stringify(settings));
  localStorage.setItem('mc_checked',JSON.stringify(checkedItems));
 }
+function syncBudget(v){
+ settings.budget=Math.max(0,+v||0);
+ document.getElementById('budget').value=settings.budget;
+ persist();renderShopping();
+}
 function saveSettings(){
  settings.budget=Math.max(0,+document.getElementById('budget').value||0);
  settings.dinnerPeople=Math.max(1,+document.getElementById('dinnerPeople').value||3);
  settings.lunchPeople=Math.max(1,+document.getElementById('lunchPeople').value||2);
  settings.leftovers=document.getElementById('leftovers').checked;
+
+ // Si le report est activé, le déjeuner suit le dîner de la veille.
+ // Le lundi n'a pas de dîner précédent.
+ for(let i=1;i<7;i++){
+  if(settings.leftovers && menus[i-1].dinner){
+   menus[i].lunch='leftover';
+  }else if(menus[i].lunch==='leftover'){
+   menus[i].lunch='';
+  }
+ }
+
  document.getElementById('budgetCourses').value=settings.budget;
- document.getElementById('budgetSettings').value=settings.budget;
- persist();renderShopping();
+ persist();renderMenus();renderShopping();
 }
 function tab(id){
  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
@@ -188,38 +221,73 @@ function tab(id){
  document.querySelectorAll('nav button').forEach(b=>b.classList.add('secondary'));
  const index={menus:0,courses:1,recettes:2,reglages:3}[id];
  document.querySelectorAll('nav button')[index].classList.remove('secondary');
- if(id==='menus')renderMenus();if(id==='courses')renderShopping();if(id==='recettes')renderRecipes();
+ if(id==='menus')renderMenus();
+ if(id==='courses')renderShopping();
+ if(id==='recettes')renderRecipes();
 }
 const days=["Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi","Dimanche"];
 function recipeOptions(selected){
- return '<option value="">— Choisir une recette —</option>'+recipes.slice().sort((a,b)=>a.name.localeCompare(b.name,'fr')).map(r=>`<option value="${r.id}" ${String(selected)===String(r.id)?'selected':''}>${esc(r.name)}</option>`).join('');
+ return '<option value="">— Choisir une recette —</option>'+
+ recipes.slice().sort((a,b)=>a.name.localeCompare(b.name,'fr')).map(r=>
+ `<option value="${r.id}" ${String(selected)===String(r.id)?'selected':''}>${esc(r.name)}</option>`
+ ).join('');
 }
 function renderMenus(){
- document.getElementById('menuList').innerHTML=days.map((d,i)=>`
- <div class="day"><div class="daytitle">${d}</div>
- <div class="meal"><span class="pill">🥗 Déjeuner · ${settings.lunchPeople} personnes</span>
- <select onchange="setMenu(${i},'lunch',this.value)">${recipeOptions(menus[i].lunch)}</select>
- ${settings.leftovers&&i>0?`<label class="checkline"><input type="checkbox" ${menus[i].lunch==='leftover'?'checked':''} onchange="setMenu(${i},'lunch',this.checked?'leftover':'')"> Utiliser le dîner de la veille</label>`:''}
- </div><div class="meal"><span class="pill">🍲 Dîner · ${settings.dinnerPeople} personnes</span>
- <select onchange="setMenu(${i},'dinner',this.value)">${recipeOptions(menus[i].dinner)}</select></div></div>`).join('');
+ document.getElementById('menuList').innerHTML=days.map((d,i)=>{
+  const isLeftover=settings.leftovers && i>0 && menus[i].lunch==='leftover' && menus[i-1].dinner;
+  const previous= isLeftover ? recipes.find(r=>String(r.id)===String(menus[i-1].dinner)) : null;
+  const extra=settings.leftovers && i<6 && menus[i].dinner ? settings.lunchPeople : 0;
+  return `
+  <div class="day">
+   <div class="daytitle">${d}</div>
+   <div class="meal">
+    <span class="pill">🥗 Déjeuner · ${settings.lunchPeople} personnes</span>
+    ${isLeftover ? `
+     <p>♻️ Restes du dîner de ${days[i-1]} : <strong>${esc(previous?previous.name:'Repas précédent')}</strong></p>
+     <p class="muted">${settings.lunchPeople} portions réservées. Aucun nouvel ingrédient ajouté aux courses.</p>
+    ` : `
+     <select onchange="setMenu(${i},'lunch',this.value)">${recipeOptions(menus[i].lunch)}</select>
+    `}
+   </div>
+   <div class="meal">
+    <span class="pill">🍲 Dîner · ${settings.dinnerPeople} personnes</span>
+    ${extra ? `<p class="muted">🍱 Prévoir ${settings.dinnerPeople+extra} portions : dîner + ${extra} portions pour le déjeuner du lendemain.</p>` : ''}
+    <select onchange="setMenu(${i},'dinner',this.value)">${recipeOptions(menus[i].dinner)}</select>
+   </div>
+  </div>`;
+ }).join('');
 }
-function setMenu(i,type,val){menus[i][type]=val;persist();renderShopping();}
-function clearMenus(){if(!confirm("Vider tous les menus ?"))return;menus=Array.from({length:7},()=>({lunch:"",dinner:""}));persist();renderMenus();renderShopping();}
+function setMenu(i,type,val){
+ menus[i][type]=val;
+ if(type==='dinner' && settings.leftovers && i<6){
+  menus[i+1].lunch=val?'leftover':'';
+ }
+ if(type==='lunch' && val===''){
+  menus[i].lunch='';
+ }
+ persist();renderMenus();renderShopping();
+}
+function clearMenus(){
+ if(!confirm("Vider tous les menus ?"))return;
+ menus=Array.from({length:7},()=>({lunch:"",dinner:""}));
+ persist();renderMenus();renderShopping();
+}
 function randomMenus(){
  const choices=recipes.filter(r=>r.cat!=='Soupe');
  menus=days.map(()=>({lunch:String(choices[Math.floor(Math.random()*choices.length)].id),dinner:String(choices[Math.floor(Math.random()*choices.length)].id)}));
+ if(settings.leftovers){
+  for(let i=1;i<7;i++)menus[i].lunch=menus[i-1].dinner?'leftover':'';
+ }
  persist();renderMenus();renderShopping();
 }
 function fmt(n){return Number(n).toLocaleString('fr-FR',{maximumFractionDigits:2});}
-function unitPrice(ing){
- // Les prix des ingrédients en g sont exprimés au kg ; ml au litre ; pièces à la pièce.
- return ing.u==='g'||ing.u==='ml'?ing.price/1000:ing.price;
-}
+function unitPrice(ing){return ing.u==='g'||ing.u==='ml'?ing.price/1000:ing.price;}
 function cost(ing,q){return unitPrice(ing)*q;}
 function getShopping(){
  const items={};
  function addRecipe(rid,people){
-  const r=recipes.find(x=>String(x.id)===String(rid));if(!r)return;
+  const r=recipes.find(x=>String(x.id)===String(rid));
+  if(!r)return;
   r.ing.forEach(ing=>{
    const key=ing.name.trim().toLocaleLowerCase('fr')+'|'+ing.u;
    if(!items[key])items[key]={name:ing.name,u:ing.u,q:0,price:ing.price,group:groupFor(ing.name)};
@@ -228,14 +296,20 @@ function getShopping(){
   });
  }
  menus.forEach((m,i)=>{
-  if(m.dinner)addRecipe(m.dinner,settings.dinnerPeople);
-  if(m.lunch&&m.lunch!=='leftover')addRecipe(m.lunch,settings.lunchPeople);
-  if(settings.leftovers&&i>0&&m.lunch==='leftover'&&menus[i-1].dinner){
-   // Le déjeuner est couvert par le dîner précédent : les quantités du dîner suffisent uniquement si les portions sont disponibles.
-   // Aucun achat supplémentaire n'est ajouté pour ce déjeuner.
+  // Les dîners du lundi au samedi incluent les portions du déjeuner suivant.
+  const extra=settings.leftovers && i<6 && m.dinner ? settings.lunchPeople : 0;
+  if(m.dinner)addRecipe(m.dinner,settings.dinnerPeople+extra);
+
+  // Le déjeuner est déjà préparé la veille : ne pas l'ajouter une deuxième fois.
+  const hasLeftovers=settings.leftovers && i>0 &&
+   m.lunch==='leftover' && !!menus[i-1].dinner;
+  if(m.lunch && m.lunch!=='leftover' && !hasLeftovers){
+   addRecipe(m.lunch,settings.lunchPeople);
   }
  });
- return Object.values(items).sort((a,b)=>a.group.localeCompare(b.group,'fr')||a.name.localeCompare(b.name,'fr'));
+ return Object.values(items).sort((a,b)=>
+  a.group.localeCompare(b.group,'fr')||a.name.localeCompare(b.name,'fr')
+ );
 }
 function groupFor(name){
  const n=name.toLowerCase();
@@ -251,18 +325,32 @@ function renderShopping(){
  const total=list.reduce((s,x)=>s+cost(x,x.q),0);
  document.getElementById('shoppingTotal').textContent=fmt(total)+' €';
  const budget=+document.getElementById('budgetCourses').value||settings.budget;
- document.getElementById('budgetMessage').textContent=total>budget?'⚠️ Budget dépassé de '+fmt(total-budget)+' €': '✓ Sous le budget de '+fmt(budget-total)+' €';
- if(!list.length){document.getElementById('shoppingList').innerHTML='<p class="muted">Choisis des recettes dans tes menus pour générer la liste.</p>';return;}
- let last='';
- document.getElementById('shoppingList').innerHTML=list.map((x,i)=>{
-  const head=x.group!==last?`<tr><th colspan="4">${esc(x.group)}</th></tr>`:'';
-  last=x.group;
+ document.getElementById('budgetMessage').textContent=total>budget?
+  '⚠️ Budget dépassé de '+fmt(total-budget)+' €':
+  '✓ Sous le budget de '+fmt(budget-total)+' €';
+ if(!list.length){
+  document.getElementById('shoppingList').innerHTML='<p class="muted">Choisis des recettes dans tes menus pour générer la liste.</p>';
+  return;
+ }
+ let last='',rows='';
+ list.forEach(x=>{
+  if(x.group!==last){rows+=`<tr><th colspan="4">${esc(x.group)}</th></tr>`;last=x.group;}
   const id=x.name.toLowerCase()+'|'+x.u;
-  return head+`<tr><td><label class="checkline"><input type="checkbox" ${checkedItems.includes(id)?'checked':''} onchange="toggleItem('${encodeURIComponent(id)}',this.checked)"> ${esc(x.name)}</label></td><td>${fmt(x.q)} ${esc(x.u)}</td><td>${fmt(cost(x,x.q))} €</td><td><span class="muted">${fmt(x.price)} €/ ${x.u==='g'?'kg':x.u==='ml'?'L':'pièce'}</span></td></tr>`;
- }).join('');
- document.getElementById('shoppingList').innerHTML='<table><thead><tr><th>Article</th><th>Quantité</th><th>Coût</th><th>Prix estimé</th></tr></thead><tbody>'+document.getElementById('shoppingList').innerHTML+'</tbody></table>';
+  rows+=`<tr>
+   <td><label class="checkline"><input type="checkbox" ${checkedItems.includes(id)?'checked':''} onchange="toggleItem('${encodeURIComponent(id)}',this.checked)"> ${esc(x.name)}</label></td>
+   <td>${fmt(x.q)} ${esc(x.u)}</td>
+   <td>${fmt(cost(x,x.q))} €</td>
+   <td>${fmt(x.price)} €/${x.u==='g'?'kg':x.u==='ml'?'L':'pièce'}</td>
+  </tr>`;
+ });
+ document.getElementById('shoppingList').innerHTML=
+  '<table><thead><tr><th>Article</th><th>Quantité</th><th>Coût</th><th>Prix estimé</th></tr></thead><tbody>'+rows+'</tbody></table>';
 }
-function toggleItem(id,on){id=decodeURIComponent(id);checkedItems=on?[...new Set([...checkedItems,id])]:checkedItems.filter(x=>x!==id);persist();}
+function toggleItem(id,on){
+ id=decodeURIComponent(id);
+ checkedItems=on?[...new Set([...checkedItems,id])]:checkedItems.filter(x=>x!==id);
+ persist();
+}
 function uncheckAll(){checkedItems=[];persist();renderShopping();}
 function renderRecipes(){
  const q=(document.getElementById('searchRecipe').value||'').toLocaleLowerCase('fr');
@@ -270,74 +358,98 @@ function renderRecipes(){
  const found=recipes.filter(r=>r.name.toLocaleLowerCase('fr').includes(q)&&(!f||r.cat===f));
  document.getElementById('recipeList').innerHTML=found.map(r=>`
  <div class="recipe">
- <div class="row"><div><h3>${esc(r.name)}</h3><span class="pill">${esc(r.cat)}</span> ${r.custom?'<span class="pill">Personnalisée</span>':''}</div><button class="secondary small" onclick="editRecipe(${r.id})">Modifier</button></div>
- <p class="muted">${r.ing.length} ingrédients · ${fmt(r.ing.reduce((s,x)=>s+cost(x,x.q),0))} € par personne environ</p>
- <details><summary>Voir les ingrédients</summary><div>${r.ing.map(x=>`<p>${esc(x.name)} : ${fmt(x.q)} ${esc(x.u)} · ${fmt(x.price)} €/ ${x.u==='g'?'kg':x.u==='ml'?'L':'pièce'}</p>`).join('')}</div></details>
- <div class="actions"><button class="secondary small" onclick="useRecipe(${r.id})">Ajouter au prochain dîner</button>${r.custom?`<button class="danger small" onclick="deleteRecipe(${r.id})">Supprimer</button>`:''}</div>
+  <div class="row"><div><h3>${esc(r.name)}</h3><span class="pill">${esc(r.cat)}</span> ${r.custom?'<span class="pill">Personnalisée</span>':''}</div><button class="secondary small" onclick="editRecipe(${r.id})">Modifier</button></div>
+  <p class="muted">${r.ing.length} ingrédients · ${fmt(r.ing.reduce((s,x)=>s+cost(x,x.q),0))} € par personne environ</p>
+  <details><summary>Voir les ingrédients</summary><div>${r.ing.map(x=>`<p>${esc(x.name)} : ${fmt(x.q)} ${esc(x.u)} · ${fmt(x.price)} €/${x.u==='g'?'kg':x.u==='ml'?'L':'pièce'}</p>`).join('')}</div></details>
+  <div class="actions"><button class="secondary small" onclick="useRecipe(${r.id})">Ajouter au prochain dîner</button>${r.custom?`<button class="danger small" onclick="deleteRecipe(${r.id})">Supprimer</button>`:''}</div>
  </div>`).join('')||'<p>Aucune recette trouvée.</p>';
+}
+function parseIngredients(txt){
+ return txt.split('\n').map(line=>{
+  const a=line.split(';').map(x=>x.trim());
+  if(a.length<3||!a[0])return null;
+  const q=Number(a[1]),u=a[2],price=Number(a[3]||0);
+  const validUnits=['g','ml','pièce','pièces','unité','cuillère'];
+  if(!Number.isFinite(q)||q<0||!validUnits.includes(u))return null;
+  return {name:a[0],q,u:u==='pièces'?'pièce':u,price:Number.isFinite(price)?Math.max(0,price):0};
+ }).filter(Boolean);
 }
 function editRecipe(id){
  const r=recipes.find(x=>x.id===id);if(!r)return;
  const name=prompt("Nom de la recette :",r.name);if(name===null)return;
  const cat=prompt("Catégorie (Viande, Poulet, Poisson, Végétarien, Soupe) :",r.cat);if(cat===null)return;
- const lines=r.ing.map(x=>[x.name,x.q,x.u,x.price].join(';')).join('\n');
- const txt=prompt("Ingrédients : nom;quantité par personne;unité;prix au kg/L ou à la pièce.\nExemple : Poulet;170;g;10",lines);
+ const txt=prompt("Ingrédients : nom;quantité par personne;unité;prix au kg/L ou à la pièce.",r.ing.map(x=>[x.name,x.q,x.u,x.price].join(';')).join('\n'));
  if(txt===null)return;
- const parsed=parseIngredients(txt);if(!parsed.length){alert("Aucun ingrédient valide. Format : nom;quantité;unité;prix");return;}
+ const parsed=parseIngredients(txt);
+ if(!parsed.length){alert("Aucun ingrédient valide. Format : nom;quantité;unité;prix");return;}
  r.name=name.trim()||r.name;r.cat=cat.trim()||r.cat;r.ing=parsed;r.custom=true;
  persist();renderRecipes();renderShopping();renderMenus();
-}
-function parseIngredients(txt){
- return txt.split('\n').map(line=>{
-  const a=line.split(';').map(x=>x.trim());if(a.length<3||!a[0])return null;
-  const q=Number(a[1]),u=a[2],price=Number(a[3]||0);
-  if(!Number.isFinite(q)||q<0||!['g','ml','pièce','pièces','unité','cuillère'].includes(u))return null;
-  return {name:a[0],q,u:u==='pièces'?'pièce':u,price:Number.isFinite(price)?Math.max(0,price):0};
- }).filter(Boolean);
 }
 function addRecipe(){
  const name=document.getElementById('newName').value.trim();
  const ing=parseIngredients(document.getElementById('newIngredients').value);
  if(!name||!ing.length){alert("Indique un nom et au moins un ingrédient valide.");return;}
  recipes.push({id:Date.now(),name,cat:document.getElementById('newCategory').value,ing,custom:true});
- document.getElementById('newName').value='';document.getElementById('newIngredients').value='';
+ document.getElementById('newName').value='';
+ document.getElementById('newIngredients').value='';
  persist();renderRecipes();renderMenus();renderShopping();alert("Recette ajoutée.");
 }
 function deleteRecipe(id){
- const r=recipes.find(x=>x.id===id);if(!r||!confirm('Supprimer « '+r.name+' » ?'))return;
+ const r=recipes.find(x=>x.id===id);
+ if(!r||!confirm('Supprimer « '+r.name+' » ?'))return;
  recipes=recipes.filter(x=>x.id!==id);
- menus.forEach(m=>{if(String(m.lunch)===String(id))m.lunch='';if(String(m.dinner)===String(id))m.dinner='';});
+ menus.forEach(m=>{
+  if(String(m.lunch)===String(id))m.lunch='';
+  if(String(m.dinner)===String(id))m.dinner='';
+ });
  persist();renderRecipes();renderMenus();renderShopping();
 }
 function useRecipe(id){
  const i=menus.findIndex(m=>!m.dinner);
  if(i<0){alert("Tous les dîners sont déjà remplis. Choisis une journée dans le menu.");tab('menus');return;}
- menus[i].dinner=String(id);persist();renderMenus();renderShopping();alert(recipes.find(r=>r.id===id).name+" ajouté au dîner du "+days[i]+".");
+ menus[i].dinner=String(id);
+ if(settings.leftovers&&i<6)menus[i+1].lunch='leftover';
+ persist();renderMenus();renderShopping();
+ alert(recipes.find(r=>r.id===id).name+" ajouté au dîner du "+days[i]+".");
 }
 function exportCSV(){
  const list=getShopping();
  if(!list.length){alert("La liste est vide.");return;}
- const rows=[["Catégorie","Article","Quantité","Unité","Prix estimé (€)"],...list.map(x=>[x.group,x.name,x.q,x.u,cost(x,x.q).toFixed(2)])];
+ const rows=[["Catégorie","Article","Quantité","Unité","Coût estimé (€)"],...list.map(x=>[x.group,x.name,x.q,x.u,cost(x,x.q).toFixed(2)])];
  const csv='\uFEFF'+rows.map(row=>row.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(';')).join('\r\n');
  const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'});
- const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='mes-courses.csv';a.click();URL.revokeObjectURL(url);
+ const url=URL.createObjectURL(blob);
+ const a=document.createElement('a');a.href=url;a.download='mes-courses.csv';a.click();
+ URL.revokeObjectURL(url);
 }
 function downloadBackup(){
  const data={recipes,menus,settings,checkedItems};
  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
- const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='mes-courses-sauvegarde.json';a.click();URL.revokeObjectURL(url);
+ const url=URL.createObjectURL(blob);
+ const a=document.createElement('a');a.href=url;a.download='mes-courses-sauvegarde.json';a.click();
+ URL.revokeObjectURL(url);
 }
 function restoreBackup(event){
  const file=event.target.files[0];if(!file)return;
  const reader=new FileReader();
- reader.onload=()=>{try{const d=JSON.parse(reader.result);if(!d.recipes||!d.menus)throw new Error();recipes=d.recipes;menus=d.menus;settings=d.settings||settings;checkedItems=d.checkedItems||[];persist();location.reload();}catch(e){alert("Fichier de sauvegarde invalide.");}};
+ reader.onload=()=>{
+  try{
+   const d=JSON.parse(reader.result);
+   if(!d.recipes||!d.menus)throw new Error();
+   recipes=d.recipes;menus=d.menus;settings=d.settings||settings;checkedItems=d.checkedItems||[];
+   persist();location.reload();
+  }catch(e){alert("Fichier de sauvegarde invalide.");}
+ };
  reader.readAsText(file);
 }
 function resetApp(){
  if(!confirm("Effacer toutes les données locales et revenir aux réglages initiaux ?"))return;
- ['mc_recipes','mc_menus','mc_settings','mc_checked'].forEach(k=>localStorage.removeItem(k));location.reload();
+ ['mc_recipes','mc_menus','mc_settings','mc_checked'].forEach(k=>localStorage.removeItem(k));
+ location.reload();
 }
-function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function esc(s){
+ return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
 load();renderMenus();renderRecipes();renderShopping();
 </script>
 </body>
