@@ -3,405 +3,394 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#174b39">
-<title>Mes Courses - Cookeo</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#176b3a">
+<title>Mes Courses</title>
 <style>
-:root{--green:#23694f;--dark:#174b39;--soft:#e5f1e9;--cream:#f7f6f0;--text:#25352d;--muted:#78847b;--border:#e3e8e0;--shadow:0 5px 18px rgba(33,64,46,.06)}
+:root{--green:#176b3a;--pale:#eaf5ed;--ink:#1c2921;--muted:#627067;--line:#dce5de;--bg:#f5f8f5;--white:#fff;--orange:#fff1d8}
 *{box-sizing:border-box}
-body{margin:0;background:var(--cream);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;font-size:15px;line-height:1.5}
-header{background:linear-gradient(135deg,var(--dark),var(--green));color:#fff;padding:25px 18px 28px;border-radius:0 0 24px 24px}
-header h1{margin:0;font-size:28px;letter-spacing:-.7px}
-header p{margin:4px 0 0;color:#e1eee5;font-size:14px}
-.headerline{display:flex;align-items:center;gap:12px}.logo{font-size:36px}
-main{max-width:1100px;margin:auto;padding:12px}
-nav{display:flex;gap:7px;padding:12px 0 16px;overflow-x:auto;position:sticky;top:0;z-index:10;background:var(--cream)}
-button{border:0;border-radius:12px;padding:11px 14px;background:var(--green);color:#fff;font:inherit;font-weight:700;cursor:pointer}
-button:active{transform:scale(.98)}
-button.secondary,nav button{background:#fff;color:var(--dark);border:1px solid var(--border)}
-nav button{white-space:nowrap;flex:1}
-nav button.selected{background:var(--green);color:#fff;border-color:var(--green)}
-button.danger{background:#b64d43}button.small{padding:7px 10px;font-size:12px}
-.panel{display:none}.panel.active{display:block}
-.card{background:#fff;border:1px solid var(--border);border-radius:17px;padding:16px;margin-bottom:14px;box-shadow:var(--shadow)}
-h2{font-size:20px;letter-spacing:-.35px;margin:0 0 14px}h3{font-size:16px;margin:0 0 7px}
-p{margin:7px 0}.muted{color:var(--muted);font-size:13px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(135px,1fr));gap:10px}
-label{display:block;font-size:13px;font-weight:700;margin:10px 0 5px}
-input,select,textarea{width:100%;min-height:43px;padding:10px 11px;border:1px solid #dce4dc;border-radius:10px;background:#fff;color:var(--text);font:inherit;font-size:14px}
-input:focus,select:focus,textarea:focus{outline:2px solid #b5d5c1;border-color:var(--green)}
-input[type=checkbox]{width:18px;height:18px;min-height:18px;accent-color:var(--green)}
-.checkline{display:flex;align-items:center;gap:9px;font-size:14px;font-weight:600}
-.pill{display:inline-block;border-radius:20px;background:var(--soft);color:var(--dark);padding:5px 9px;font-size:12px;font-weight:700}
-.row{display:flex;align-items:center;justify-content:space-between;gap:9px;flex-wrap:wrap}.row h2{margin:0}
-.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}.actions button{flex:1}
-.day{background:#fff;border:1px solid var(--border);border-radius:14px;overflow:hidden;margin:11px 0;box-shadow:0 3px 10px #21402e08}
-.daytitle{padding:11px 13px;background:var(--soft);color:var(--dark);font-weight:800;font-size:16px}
-.meal{padding:12px 13px;border-top:1px solid var(--border)}.meal select{margin-top:8px}
-.total{font-size:27px;font-weight:850;letter-spacing:-.6px;color:var(--green)}
-.progress{height:9px;background:#e7ebe6;border-radius:20px;overflow:hidden;margin:8px 0}
-.progress div{height:100%;background:var(--green);border-radius:20px;width:0}
-.recipe-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}
-.recipe{border:1px solid var(--border);border-radius:14px;padding:12px;margin:0;background:#fff;overflow:hidden}
-.recipe-photo{width:100%;height:160px;object-fit:cover;display:block;border-radius:10px;margin-bottom:11px;background:var(--soft)}
-.recipe-meta{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
-.recipe p{margin:6px 0}.recipe summary{cursor:pointer;color:var(--green);font-weight:700;padding:7px 0}
-table{width:100%;border-collapse:collapse;font-size:13px}
-th,td{text-align:left;padding:10px 6px;border-bottom:1px solid var(--border);vertical-align:middle}
-th{background:#f0f5f0;color:#526458;font-size:12px}
-.tablewrap{overflow-x:auto}
-.notice{background:#e8f5e9;color:#20583c;border-radius:11px;padding:11px;font-size:13px;margin:10px 0}
-.budgetbox{background:linear-gradient(135deg,#eef7f0,#fff);border:1px solid #dce9df;border-radius:14px;padding:14px}
-footer{text-align:center;color:var(--muted);padding:20px 8px;font-size:12px}
-@media(min-width:850px){.dashboard{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(280px,.8fr);gap:14px;align-items:start}}
-@media(max-width:600px){
- header{padding:22px 15px 24px}header h1{font-size:25px}main{padding:9px}nav{gap:6px}nav button{padding:10px 11px;font-size:12px}
- .card{padding:13px;border-radius:15px}h2{font-size:19px}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
- .actions button{flex:1 1 100%}.tablewrap table{min-width:480px}
- .recipe-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
- .recipe{padding:9px}.recipe-photo{height:115px}.recipe h3{font-size:14px}
-}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 system-ui,-apple-system,sans-serif}
+header{background:var(--green);color:white;padding:22px 16px}
+header h1{margin:0;font-size:26px}
+header p{margin:5px 0 0;font-size:14px}
+main{max-width:850px;margin:auto;padding:14px;display:grid;gap:14px}
+.card{background:white;border:1px solid var(--line);border-radius:16px;padding:16px;box-shadow:0 2px 8px #163d2010}
+h2{font-size:19px;margin:0 0 12px}
+h3{font-size:16px;margin:0 0 8px}
+.sub,.muted{color:var(--muted);font-size:13px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.field label{display:block;font-size:13px;font-weight:700;margin-bottom:5px}
+input,select,textarea{width:100%;padding:10px;border:1px solid #cbd8ce;border-radius:10px;background:white;font:inherit}
+textarea{min-height:100px}
+button{border:0;border-radius:10px;padding:11px 13px;font:inherit;font-weight:700;cursor:pointer}
+.primary{background:var(--green);color:white}
+.secondary{background:var(--pale);color:var(--green)}
+.danger{background:#fff0f0;color:#a12626}
+.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-width:850px;margin:12px auto 0;padding:0 14px;position:sticky;top:0;z-index:5;background:var(--bg)}
+.tabs button{border:1px solid var(--line);background:white;color:var(--green);padding:12px 4px;font-size:13px}
+.tabs button.active{background:var(--green);color:white}
+.page-hidden{display:none!important}
+.day,.recipe{border:1px solid var(--line);border-radius:12px;padding:12px;margin:10px 0}
+.day label{display:block;font-size:12px;color:var(--muted);font-weight:700;margin:8px 0 4px}
+.day select{margin-bottom:3px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.stat{background:var(--pale);border-radius:12px;padding:10px}
+.stat small{display:block;color:var(--muted);font-size:12px}
+.stat b{font-size:18px}
+.progress{height:8px;border-radius:9px;background:#e4ebe5;overflow:hidden;margin-top:8px}
+.progress span{display:block;height:100%;background:var(--green);width:0}
+.group-title{font-size:14px;color:var(--green);font-weight:800;margin:16px 0 4px}
+.item{display:grid;grid-template-columns:24px 1fr 85px;gap:8px;align-items:center;padding:10px 0;border-bottom:1px solid #edf1ed}
+.item input[type=checkbox]{width:19px;height:19px;accent-color:var(--green)}
+.item strong{font-size:14px}
+.qty{font-size:12px;color:var(--muted)}
+.price{padding:7px;font-size:13px}
+.recipe img{width:100%;max-height:240px;object-fit:cover;border-radius:10px;margin:8px 0}
+.recipe ol,.recipe ul{padding-left:22px}
+.recipe li{margin:5px 0}
+.badge{display:inline-block;background:var(--pale);color:var(--green);padding:3px 9px;border-radius:20px;font-size:12px;font-weight:700}
+.note{background:var(--orange);padding:10px;border-radius:10px;font-size:13px}
+footer{text-align:center;color:var(--muted);font-size:12px;padding:10px 20px 24px}
+@media(max-width:460px){.stats{grid-template-columns:1fr 1fr}.item{grid-template-columns:24px 1fr 70px}.stat b{font-size:16px}}
 </style>
 </head>
 <body>
 <header>
- <div class="headerline"><div class="logo">🍲</div><div><h1>Mes Courses</h1><p>Des repas simples, rapides et savoureux !</p></div></div>
+  <h1>🛒 Mes Courses</h1>
+  <p>Menus de la semaine • Recettes • Courses • Budget</p>
 </header>
-<main>
-<nav>
- <button data-tab="menus" class="selected" onclick="tab('menus')">🏠 Mon menu</button>
- <button data-tab="recettes" onclick="tab('recettes')">🍲 Recettes</button>
- <button data-tab="courses" onclick="tab('courses')">🛒 Courses</button>
- <button data-tab="reglages" onclick="tab('reglages')">⚙️ Réglages</button>
+
+<nav class="tabs">
+  <button class="active" data-page="menu">🍽️ Menus</button>
+  <button data-page="courses">🛒 Courses</button>
+  <button data-page="recipes">📖 Recettes</button>
 </nav>
 
-<section id="menus" class="panel active">
-<div class="dashboard">
- <div class="card">
-  <div class="row"><h2>📅 Menu de la semaine</h2><button class="small" onclick="randomMenus()">🎲 Générer</button></div>
-  <p class="muted">Choisis tes repas et réutilise les restes du soir au déjeuner.</p>
+<main>
+<section class="card" data-page="menu">
+  <h2>Mes paramètres</h2>
   <div class="grid">
-   <div><label>Personnes le soir</label><input id="dinnerPeople" type="number" min="1" max="12" value="3" onchange="saveSettings()"></div>
-   <div><label>Personnes le midi</label><input id="lunchPeople" type="number" min="1" max="12" value="2" onchange="saveSettings()"></div>
+    <div class="field"><label for="budget">Budget hebdomadaire (€)</label><input id="budget" type="number" min="0" value="130"></div>
+    <div class="field"><label for="days">Nombre de jours</label><select id="days"><option value="5">5 jours</option><option value="7" selected>7 jours</option></select></div>
+    <div class="field"><label for="dinners">Personnes au dîner</label><select id="dinners"><option>1</option><option>2</option><option selected>3</option><option>4</option><option>5</option><option>6</option></select></div>
+    <div class="field"><label for="lunches">Personnes au déjeuner</label><select id="lunches"><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option><option>6</option></select></div>
+    <div class="field"><label for="style">Objectif alimentaire</label><select id="style"><option value="weight">Perte de poids</option><option value="balanced">Équilibré familial</option><option value="vegetarian">Végétarien</option></select></div>
+    <div class="field"><label for="leftovers">Réutiliser les restes</label><select id="leftovers"><option value="yes" selected>Oui, pour les déjeuners</option><option value="no">Non</option></select></div>
   </div>
-  <label class="checkline"><input type="checkbox" id="leftovers" onchange="saveSettings()"> Préparer le déjeuner avec les restes du soir</label>
-  <div id="menuList"></div>
-  <div class="actions"><button onclick="tab('courses')">🛒 Voir mes courses</button><button class="secondary" onclick="clearMenus()">Vider le menu</button></div>
- </div>
- <div>
-  <div class="card">
-   <h2>💶 Mon budget</h2>
-   <div class="budgetbox">
-    <label>Budget hebdomadaire (€)</label><input id="budget" type="number" min="0" value="130" onchange="saveSettings()">
-    <p class="muted">Coût estimé des menus sélectionnés</p><div id="menuTotal" class="total">0,00 €</div>
-    <div class="progress"><div id="budgetBar"></div></div><p id="budgetMessage"></p>
-   </div>
+  <div class="actions">
+    <button class="primary" id="generate">Recalculer les courses</button>
+    <button class="secondary" id="reset">Réinitialiser</button>
   </div>
-  <div class="card"><h2>✨ Raccourcis</h2><div class="actions"><button onclick="tab('recettes')">Voir les recettes</button><button class="secondary" onclick="tab('courses')">Préparer les courses</button></div></div>
-  <div class="card"><h2>♻️ Les restes</h2><p class="muted">Quand l'option est activée, le dîner prévoit les portions du déjeuner suivant. Elles ne sont pas comptées deux fois dans les courses.</p></div>
- </div>
-</div>
+  <p class="muted">Les prix sont des estimations modifiables. Les quantités sont calculées à partir des repas sélectionnés.</p>
 </section>
 
-<section id="recettes" class="panel">
-<div class="card">
- <h2>🍲 Mes recettes Cookeo</h2><p class="muted">Photos d'illustration, quantités par personne et prix modifiables.</p>
- <div class="grid">
-  <div><label>Rechercher une recette</label><input id="searchRecipe" placeholder="Ex. poulet..." oninput="renderRecipes()"></div>
-  <div><label>Catégorie</label><select id="filterRecipe" onchange="renderRecipes()"><option value="">Toutes</option><option>Viande</option><option>Poulet</option><option>Poisson</option><option>Végétarien</option><option>Soupe</option></select></div>
- </div>
- <div id="recipeList"></div>
-</div>
-<div class="card">
- <h2>➕ Ajouter une recette</h2>
- <label>Nom</label><input id="newName" placeholder="Nom de la recette">
- <label>Catégorie</label><select id="newCategory"><option>Viande</option><option>Poulet</option><option>Poisson</option><option>Végétarien</option><option>Soupe</option></select>
- <label>Ingrédients : nom;quantité;unité;prix au kg/L ou à la pièce</label>
- <textarea id="newIngredients" rows="5" placeholder="Poulet;170;g;10&#10;Carottes;100;g;2&#10;Riz;70;g;3"></textarea>
- <p class="muted">Exemple : Poulet;170;g;10 = 170 g par personne, à 10 €/kg.</p>
- <button onclick="addRecipe()">Ajouter la recette</button>
-</div>
+<section class="card" data-page="menu">
+  <h2>Menu de la semaine</h2>
+  <p class="sub">Choisis les plats du soir et les déjeuners. Les courses sont recalculées automatiquement.</p>
+  <div id="menus"></div>
 </section>
 
-<section id="courses" class="panel">
-<div class="card">
- <h2>🛒 Ma liste de courses</h2>
- <div class="grid"><div><label>Budget (€)</label><input id="budgetCourses" type="number" value="130" onchange="syncBudget(this.value)"></div><div><label>Total estimé</label><div class="total" id="shoppingTotal">0,00 €</div></div></div>
- <div class="progress"><div id="shoppingBar"></div></div><p id="shoppingMessage"></p>
- <p class="muted">Les articles sont regroupés. Les déjeuners reportés ne sont pas comptés deux fois.</p>
- <div id="shoppingList"></div>
- <div class="actions"><button onclick="exportCSV()">Exporter en CSV</button><button class="secondary" onclick="uncheckAll()">Tout décocher</button></div>
-</div>
+<section class="card" data-page="menu">
+  <h2>Budget estimé</h2>
+  <div class="stats">
+    <div class="stat"><small>Budget cible</small><b id="budgetStat">130 €</b></div>
+    <div class="stat"><small>Coût estimé</small><b id="total">0 €</b></div>
+    <div class="stat"><small>À acheter</small><b id="remaining">0</b></div>
+  </div>
+  <div class="progress"><span id="progress"></span></div>
+  <p id="budgetMessage" class="muted"></p>
 </section>
 
-<section id="reglages" class="panel">
-<div class="card">
- <h2>⚙️ Réglages et sauvegarde</h2><p>Les données sont enregistrées dans le navigateur de ton téléphone.</p>
- <div class="actions"><button onclick="downloadBackup()">Sauvegarder mes données</button><button class="secondary" onclick="document.getElementById('backupFile').click()">Restaurer une sauvegarde</button></div>
- <input id="backupFile" type="file" accept=".json,application/json" style="display:none" onchange="restoreBackup(event)">
- <hr style="border:0;border-top:1px solid var(--border);margin:18px 0">
- <button class="danger" onclick="resetApp()">Réinitialiser l'application</button>
- <p class="muted">La réinitialisation efface les données locales.</p>
-</div>
+<section class="card page-hidden" data-page="courses">
+  <h2>Liste de courses</h2>
+  <p class="sub">Coche les produits déjà disponibles chez toi. Tu peux modifier les prix.</p>
+  <div class="actions">
+    <button class="secondary" id="uncheck">Tout décocher</button>
+    <button class="secondary" id="copy">📋 Copier la liste</button>
+    <button class="secondary" id="csv">Exporter CSV</button>
+  </div>
+  <div id="shopping"></div>
+  <p class="note">Les prix sont indicatifs. Vérifie les quantités et les formats de conditionnement avant les achats.</p>
 </section>
-<footer>Mes Courses · Prix indicatifs · Photos d'illustration</footer>
+
+<section class="card page-hidden" data-page="recipes">
+  <h2>📖 Mes recettes</h2>
+  <p class="sub">Les recettes ci-dessous peuvent être utilisées dans les menus. Tu peux également en ajouter.</p>
+  <div id="recipeList"></div>
+  <h3>Ajouter une recette personnalisée</h3>
+  <form id="recipeForm">
+    <div class="field"><label for="recipeName">Nom</label><input id="recipeName" required placeholder="Nom de la recette"></div>
+    <div class="field"><label for="recipeType">Type</label><select id="recipeType"><option value="dinner">Dîner</option><option value="lunch">Déjeuner</option><option value="dessert">Dessert</option></select></div>
+    <div class="field"><label for="recipeIngredients">Ingrédients, un par ligne (nom : quantité en grammes)</label><textarea id="recipeIngredients" required placeholder="Pommes : 150&#10;Beurre : 10"></textarea></div>
+    <div class="field"><label for="recipeSteps">Préparation, une étape par ligne</label><textarea id="recipeSteps" required placeholder="Préchauffer le four..."></textarea></div>
+    <div class="field"><label for="recipeImage">Lien de la photo (facultatif)</label><input id="recipeImage" type="url" placeholder="https://..."></div>
+    <div class="actions"><button class="primary" type="submit">Enregistrer la recette</button></div>
+  </form>
+  <p id="recipeMessage" class="muted"></p>
+</section>
 </main>
 
+<footer>Mes Courses • Données conservées sur cet appareil</footer>
+
 <script>
-const defaults=[
-["Poulet basquaise","Poulet",[["Poulet",170,"g",10],["Poivrons",100,"g",4],["Tomates",120,"g",3],["Oignon",40,"g",2],["Riz",70,"g",3],["Huile d'olive",5,"ml",9]]],
-["Blanquette de poulet","Poulet",[["Poulet",170,"g",10],["Carottes",100,"g",2],["Champignons",80,"g",5],["Oignon",30,"g",2],["Crème",30,"ml",4],["Riz",70,"g",3]]],
-["Couscous poulet légumes","Poulet",[["Poulet",160,"g",10],["Semoule",80,"g",3],["Carottes",80,"g",2],["Courgettes",80,"g",3],["Pois chiches",60,"g",3],["Tomates",80,"g",3]]],
-["Poulet curry coco","Poulet",[["Poulet",170,"g",10],["Lait de coco",80,"ml",4],["Riz",75,"g",3],["Oignon",40,"g",2],["Curry",3,"g",25],["Courgettes",80,"g",3]]],
-["Risotto poulet champignons","Poulet",[["Poulet",130,"g",10],["Riz à risotto",80,"g",4],["Champignons",100,"g",5],["Oignon",30,"g",2],["Parmesan",15,"g",18],["Bouillon",1,"pièce",0.3]]],
-["Bœuf bourguignon","Viande",[["Bœuf à bourguignon",170,"g",16],["Vin rouge",80,"ml",4],["Lardons",20,"g",8],["Oignons grelots",40,"g",4],["Carottes",60,"g",2],["Champignons",70,"g",5],["Pommes de terre",200,"g",2],["Fond de veau",3,"g",30]]],
-["Blanquette de veau","Viande",[["Veau",170,"g",20],["Carottes",100,"g",2],["Champignons",80,"g",5],["Oignon",30,"g",2],["Crème",30,"ml",4],["Riz",70,"g",3]]],
-["Saucisses aux lentilles","Viande",[["Saucisses",150,"g",9],["Lentilles sèches",80,"g",4],["Carottes",80,"g",2],["Oignon",40,"g",2],["Lardons",20,"g",8]]],
-["Chili con carne","Viande",[["Bœuf haché",130,"g",13],["Haricots rouges",100,"g",3],["Tomates concassées",150,"g",2],["Maïs",40,"g",3],["Oignon",40,"g",2],["Riz",60,"g",3]]],
-["Rougail saucisse","Viande",[["Saucisses",170,"g",9],["Tomates",150,"g",3],["Oignon",40,"g",2],["Riz",75,"g",3],["Ail",5,"g",8]]],
-["Filet mignon moutarde","Viande",[["Filet mignon",170,"g",14],["Moutarde",15,"g",5],["Crème",40,"ml",4],["Champignons",80,"g",5],["Pommes de terre",200,"g",2]]],
-["Pot-au-feu","Viande",[["Bœuf à pot-au-feu",180,"g",15],["Carottes",120,"g",2],["Poireaux",80,"g",3],["Navets",70,"g",2],["Pommes de terre",180,"g",2],["Oignon",30,"g",2]]],
-["Paëlla","Poisson",[["Riz",90,"g",3],["Poulet",100,"g",10],["Moules",60,"g",8],["Crevettes",60,"g",14],["Poivrons",70,"g",4],["Petits pois",40,"g",3]]],
-["Riz sauté au poulet","Poulet",[["Poulet",130,"g",10],["Riz",80,"g",3],["Carottes",50,"g",2],["Petits pois",40,"g",3],["Œuf",1,"pièce",0.35],["Sauce soja",10,"ml",5]]],
-["Pâtes bolognaise","Viande",[["Pâtes",90,"g",2],["Bœuf haché",120,"g",13],["Tomates concassées",150,"g",2],["Oignon",30,"g",2],["Parmesan",10,"g",18]]],
-["Risotto champignons","Végétarien",[["Riz à risotto",90,"g",4],["Champignons",130,"g",5],["Oignon",30,"g",2],["Parmesan",20,"g",18],["Bouillon",1,"pièce",0.3]]],
-["Dahl lentilles corail","Végétarien",[["Lentilles corail",90,"g",4],["Lait de coco",50,"ml",4],["Tomates concassées",100,"g",2],["Oignon",40,"g",2],["Riz",60,"g",3],["Curry",3,"g",25]]],
-["Ratatouille","Végétarien",[["Courgettes",120,"g",3],["Aubergines",100,"g",4],["Poivrons",80,"g",4],["Tomates",150,"g",3],["Oignon",40,"g",2],["Riz",70,"g",3]]],
-["Chili végétarien","Végétarien",[["Haricots rouges",120,"g",3],["Maïs",50,"g",3],["Tomates concassées",150,"g",2],["Poivrons",70,"g",4],["Oignon",40,"g",2],["Riz",70,"g",3]]],
-["Soupe de légumes","Soupe",[["Carottes",100,"g",2],["Poireaux",80,"g",3],["Pommes de terre",100,"g",2],["Courgettes",100,"g",3],["Oignon",30,"g",2],["Bouillon",1,"pièce",0.3]]]
-];
+const STORE_KEY = "mesCoursesV3";
+const $ = id => document.getElementById(id);
 
-let recipes,menus,settings,checkedItems;
-const days=["Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi","Dimanche"];
+const recipes = {
+  chicken:{name:"Poulet, riz et légumes",type:"dinner",ingredients:{"Poulet":150,"Riz":70,"Carottes":100,"Courgettes":100,"Oignon":25},steps:["Couper le poulet et les légumes.","Faire revenir le poulet et l'oignon.","Ajouter les légumes et un peu d'eau.","Servir avec le riz cuit."]},
+  lentils:{name:"Dahl de lentilles et riz",type:"dinner",ingredients:{"Lentilles corail":90,"Riz":60,"Lait de coco":60,"Tomates concassées":100,"Oignon":30},steps:["Faire revenir l'oignon.","Ajouter les lentilles, tomates et lait de coco.","Laisser mijoter jusqu'à ce que les lentilles soient tendres.","Servir avec le riz."]},
+  bolognese:{name:"Pâtes bolognaise maison",type:"dinner",ingredients:{"Pâtes":90,"Bœuf haché 5%":100,"Tomates concassées":120,"Carottes":50,"Oignon":25},steps:["Émincer les légumes.","Faire revenir la viande et les légumes.","Ajouter les tomates et mijoter.","Cuire les pâtes et servir."]},
+  gratin:{name:"Gratin pommes de terre, légumes et dinde",type:"dinner",ingredients:{"Pommes de terre":220,"Dinde":130,"Brocoli surgelé":100,"Crème légère":40,"Fromage râpé":25},steps:["Préchauffer le four à 180 °C.","Couper les pommes de terre et la dinde.","Mettre les ingrédients dans un plat avec la crème.","Ajouter le fromage et cuire jusqu'à ce que le gratin soit doré."]},
+  tuna:{name:"Salade de riz, thon et pois chiches",type:"lunch",ingredients:{"Riz":75,"Thon en boîte":80,"Pois chiches":80,"Tomates":100,"Concombre":80},steps:["Cuire le riz puis le laisser refroidir.","Égoutter le thon et les pois chiches.","Couper les légumes.","Mélanger et assaisonner."]},
+  wrap:{name:"Wrap poulet crudités",type:"lunch",ingredients:{"Tortillas":2,"Poulet":100,"Salade":40,"Tomates":80,"Yaourt nature":30},steps:["Cuire le poulet et le couper en lamelles.","Mélanger le yaourt avec les épices.","Garnir les tortillas avec le poulet et les crudités."]},
+  pastaSalad:{name:"Salade de pâtes au thon",type:"lunch",ingredients:{"Pâtes":80,"Thon en boîte":80,"Maïs en boîte":50,"Tomates":100,"Concombre":80},steps:["Cuire les pâtes puis les refroidir.","Égoutter le thon et le maïs.","Couper les légumes et mélanger."]},
+  chickpea:{name:"Curry pois chiches et légumes",type:"dinner",ingredients:{"Pois chiches":150,"Riz":60,"Lait de coco":60,"Tomates concassées":100,"Oignon":30},steps:["Faire revenir l'oignon.","Ajouter les pois chiches, tomates et lait de coco.","Assaisonner au curry et laisser mijoter.","Servir avec le riz."]},
+  fish:{name:"Poisson, pommes de terre et haricots verts",type:"dinner",ingredients:{"Poisson surgelé":160,"Pommes de terre":220,"Haricots verts surgelés":150,"Citron":20},steps:["Cuire les pommes de terre et les haricots verts.","Cuire le poisson à la poêle ou au four.","Ajouter le citron et servir."]},
+  omelette:{name:"Omelette, salade et pain complet",type:"dinner",ingredients:{"Œufs":2,"Salade":80,"Pain complet":70,"Champignons":80},steps:["Faire revenir les champignons.","Battre les œufs et cuire l'omelette.","Servir avec la salade et le pain."]},
+  soup:{name:"Soupe de légumes et tartines",type:"dinner",ingredients:{"Pommes de terre":100,"Carottes":100,"Poireaux":100,"Oignon":25,"Pain complet":80,"Fromage frais":30},steps:["Couper les légumes.","Les faire cuire dans de l'eau jusqu'à ce qu'ils soient tendres.","Mixer et servir avec les tartines."]},
+  turkey:{name:"Émincé de dinde, semoule et légumes",type:"dinner",ingredients:{"Dinde":150,"Semoule":70,"Courgettes":100,"Carottes":100,"Oignon":25},steps:["Couper la dinde et les légumes.","Faire revenir la dinde et l'oignon.","Ajouter les légumes et laisser cuire.","Préparer la semoule et servir."]},
+  quiche:{name:"Quiche légumes et salade",type:"dinner",ingredients:{"Pâte brisée":0.25,"Œufs":1,"Crème légère":40,"Fromage râpé":20,"Poireaux":100,"Salade":60},steps:["Préchauffer le four à 180 °C.","Faire revenir les poireaux.","Mélanger les œufs, la crème et le fromage.","Garnir la pâte et cuire environ 30 minutes."]},
+  tofu:{name:"Tofu, riz et légumes sautés",type:"dinner",ingredients:{"Tofu":150,"Riz":70,"Carottes":100,"Courgettes":100,"Sauce soja":15},steps:["Cuire le riz.","Couper le tofu et les légumes.","Faire sauter le tout à la poêle avec la sauce soja.","Servir chaud."]},
+  veggiePasta:{name:"Pâtes aux légumes et lentilles",type:"dinner",ingredients:{"Pâtes":80,"Lentilles corail":60,"Tomates concassées":120,"Courgettes":100,"Oignon":25},steps:["Cuire les lentilles.","Faire revenir l'oignon et les courgettes.","Ajouter les tomates et les lentilles.","Servir avec les pâtes cuites."]},
+  chili:{name:"Chili con carne et riz",type:"dinner",ingredients:{"Bœuf haché 5%":100,"Haricots rouges":100,"Tomates concassées":120,"Riz":60,"Oignon":25},steps:["Faire revenir la viande et l'oignon.","Ajouter les haricots et les tomates.","Assaisonner et laisser mijoter.","Servir avec le riz."]},
+  salmon:{name:"Saumon, riz et brocoli",type:"dinner",ingredients:{"Saumon surgelé":150,"Riz":70,"Brocoli surgelé":150,"Citron":15},steps:["Cuire le riz et le brocoli.","Cuire le saumon à la poêle ou au four.","Ajouter le citron et servir."]},
+  couscous:{name:"Couscous poulet et légumes",type:"dinner",ingredients:{"Poulet":130,"Semoule":70,"Carottes":100,"Courgettes":100,"Pois chiches":60},steps:["Couper les légumes et le poulet.","Faire cuire le poulet et les légumes avec les épices.","Préparer la semoule.","Servir ensemble."]},
+  ratatouille:{name:"Ratatouille et semoule",type:"dinner",ingredients:{"Aubergine":80,"Courgettes":100,"Poivron":80,"Tomates":100,"Semoule":70,"Oignon":25},steps:["Couper les légumes.","Faire revenir l'oignon puis ajouter les légumes.","Laisser mijoter jusqu'à tendreté.","Servir avec la semoule."]},
+  tartelettePommes:{
+    name:"Tartelette aux pommes caramélisées et glace vanille",
+    type:"dessert",
+    ingredients:{"Pâte feuilletée":80,"Pommes":150,"Beurre":7,"Sucre":8,"Glace vanille":60,"Coulis de fruits rouges":10},
+    steps:[
+      "Préchauffer le four à 180 °C.",
+      "Découper trois petits fonds de tarte dans la pâte feuilletée.",
+      "Couper les pommes en dés et les faire caraméliser avec le beurre et le sucre.",
+      "Répartir les pommes sur les fonds de tarte.",
+      "Enfourner 15 à 20 minutes, jusqu'à ce que la pâte soit dorée.",
+      "Laisser tiédir puis ajouter la glace vanille et le coulis."
+    ],
+    image:"https://loremflickr.com/700/450/apple,tart,vanilla,icecream"
+  },
+  bulgurBowl:{name:"Bowl boulgour, pois chiches et légumes",type:"lunch",ingredients:{"Boulgour":70,"Pois chiches":100,"Concombre":60,"Tomates":80,"Feta":25},steps:["Cuire le boulgour.","Rincer les pois chiches.","Couper les légumes.","Mélanger et assaisonner."]},
+  quinoaTuna:{name:"Salade de quinoa au thon",type:"lunch",ingredients:{"Quinoa":70,"Thon en boîte":70,"Maïs en boîte":40,"Concombre":60,"Tomates":80},steps:["Cuire le quinoa et laisser refroidir.","Égoutter le thon et le maïs.","Mélanger avec les légumes."]},
+  hamWrap:{name:"Wrap jambon-fromage et crudités",type:"lunch",ingredients:{"Tortillas":2,"Jambon":60,"Fromage frais":20,"Salade":30,"Carottes":50},steps:["Étaler le fromage frais sur les tortillas.","Ajouter le jambon et les crudités.","Rouler et emballer."]}
+};
 
-function freshRecipes(){return defaults.map((r,i)=>({id:i+1,name:r[0],cat:r[1],ing:r[2].map(x=>({name:x[0],q:x[1],u:x[2],price:x[3]})),custom:false}));}
+const prices={
+"Poulet":9.49,"Riz":1.50,"Carottes":1.49,"Courgettes":2.50,"Oignon":1.50,
+"Lentilles corail":2.00,"Lait de coco":1.20,"Tomates concassées":0.80,"Pâtes":0.75,
+"Bœuf haché 5%":5.50,"Pommes de terre":2.00,"Dinde":5.50,"Brocoli surgelé":1.80,
+"Crème légère":1.30,"Fromage râpé":1.70,"Thon en boîte":1.60,"Pois chiches":0.90,
+"Tomates":2.50,"Concombre":1.20,"Œufs":2.80,"Salade":1.40,"Pain complet":1.80,
+"Champignons":1.80,"Poireaux":2.00,"Tortillas":1.70,"Yaourt nature":1.50,
+"Maïs en boîte":0.90,"Poisson surgelé":5.00,"Haricots verts surgelés":1.80,
+"Citron":0.60,"Semoule":1.20,"Pâte brisée":1.30,"Fromage frais":1.50,
+"Tofu":2.50,"Sauce soja":1.80,"Haricots rouges":0.90,"Saumon surgelé":6.50,
+"Aubergine":1.80,"Poivron":2.50,"Boulgour":1.80,"Quinoa":3.00,"Feta":1.80,
+"Pâte feuilletée":1.50,"Pommes":2.50,"Beurre":2.20,"Sucre":1.50,
+"Glace vanille":3.00,"Coulis de fruits rouges":2.00,"Bœuf bourguignon":9.00
+};
 
+const groups={
+"Fruits et légumes":["Pommes","Carottes","Courgettes","Oignon","Tomates","Concombre","Brocoli surgelé","Salade","Champignons","Poireaux","Haricots verts surgelés","Citron","Poivron","Aubergine","Coulis de fruits rouges"],
+"Viandes, poissons et alternatives":["Poulet","Bœuf haché 5%","Dinde","Poisson surgelé","Saumon surgelé","Thon en boîte","Tofu"],
+"Féculents et conserves":["Riz","Pâtes","Lentilles corail","Pois chiches","Tomates concassées","Maïs en boîte","Semoule","Pommes de terre","Tortillas","Pain complet","Pâte brisée","Boulgour","Quinoa","Haricots rouges"],
+"Frais et épicerie":["Beurre","Sucre","Glace vanille","Pâte feuilletée","Lait de coco","Crème légère","Fromage râpé","Œufs","Yaourt nature","Fromage frais","Sauce soja","Feta"]
+};
+
+let state={
+  budget:130,days:7,dinners:3,lunches:2,style:"weight",leftovers:"yes",
+  menus:[],checked:{},prices:{...prices},customRecipes:{}
+};
+
+function save(){try{localStorage.setItem(STORE_KEY,JSON.stringify(state));}catch(e){}}
 function load(){
- try{recipes=JSON.parse(localStorage.getItem('mc_recipes'))||freshRecipes()}catch(e){recipes=freshRecipes()}
- try{menus=JSON.parse(localStorage.getItem('mc_menus'))||Array.from({length:7},()=>({lunch:"",dinner:""}))}catch(e){menus=Array.from({length:7},()=>({lunch:"",dinner:""}))}
- try{settings=JSON.parse(localStorage.getItem('mc_settings'))||{budget:130,dinnerPeople:3,lunchPeople:2,leftovers:false}}catch(e){settings={budget:130,dinnerPeople:3,lunchPeople:2,leftovers:false}}
- try{checkedItems=JSON.parse(localStorage.getItem('mc_checked'))||[]}catch(e){checkedItems=[]}
- settings.budget=settings.budget??130;settings.dinnerPeople=settings.dinnerPeople??3;settings.lunchPeople=settings.lunchPeople??2;settings.leftovers=!!settings.leftovers;
- document.getElementById('budget').value=settings.budget;
- document.getElementById('budgetCourses').value=settings.budget;
- document.getElementById('dinnerPeople').value=settings.dinnerPeople;
- document.getElementById('lunchPeople').value=settings.lunchPeople;
- document.getElementById('leftovers').checked=settings.leftovers;
+  try{
+    const s=JSON.parse(localStorage.getItem(STORE_KEY)||"null");
+    if(s)state={...state,...s};
+    state.customRecipes=state.customRecipes||{};
+    Object.entries(state.customRecipes).forEach(([k,r])=>recipes[k]=r);
+  }catch(e){}
 }
-
-function persist(){
- localStorage.setItem('mc_recipes',JSON.stringify(recipes));
- localStorage.setItem('mc_menus',JSON.stringify(menus));
- localStorage.setItem('mc_settings',JSON.stringify(settings));
- localStorage.setItem('mc_checked',JSON.stringify(checkedItems));
+function fmt(n){return new Intl.NumberFormat("fr-FR",{maximumFractionDigits:1}).format(n);}
+function euro(n){return new Intl.NumberFormat("fr-FR",{style:"currency",currency:"EUR"}).format(n);}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+function defaults(){
+ const dinner=state.style==="vegetarian"?["lentils","chickpea","omelette","veggiePasta","gratin","tofu","soup"]:state.style==="balanced"?["chicken","bolognese","fish","gratin","turkey","omelette","soup"]:["chicken","lentils","bolognese","gratin","chickpea","fish","omelette"];
+ const lunch=["tuna","wrap","pastaSalad","bulgurBowl","quinoaTuna","hamWrap","tuna"];
+ state.menus=Array.from({length:state.days},(_,i)=>({dinner:dinner[i%dinner.length],lunch:lunch[i%lunch.length],dessert:i===5?"tartelettePommes":""}));
 }
-function fmt(n){return Number(n).toLocaleString('fr-FR',{maximumFractionDigits:2})}
-function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-
-function tab(id){
- document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
- document.getElementById(id).classList.add('active');
- document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('selected',b.dataset.tab===id));
- if(id==='menus')renderMenus();
- if(id==='recettes')renderRecipes();
- if(id==='courses')renderShopping();
+function readInputs(){
+ state.budget=Math.max(0,Number($("budget").value)||0);
+ state.days=Number($("days").value);
+ state.dinners=Number($("dinners").value);
+ state.lunches=Number($("lunches").value);
+ state.style=$("style").value;
+ state.leftovers=$("leftovers").value;
 }
-
-function recipeOptions(selected){
- return '<option value="">— Choisir un repas —</option>'+recipes.slice().sort((a,b)=>a.name.localeCompare(b.name,'fr')).map(r=>`<option value="${r.id}" ${String(selected)===String(r.id)?'selected':''}>${esc(r.name)}</option>`).join('');
+function setInputs(){
+ $("budget").value=state.budget;$("days").value=state.days;
+ $("dinners").value=state.dinners;$("lunches").value=state.lunches;
+ $("style").value=state.style;$("leftovers").value=state.leftovers;
 }
-
-function saveSettings(){
- settings.budget=Math.max(0,+document.getElementById('budget').value||0);
- settings.dinnerPeople=Math.max(1,+document.getElementById('dinnerPeople').value||3);
- settings.lunchPeople=Math.max(1,+document.getElementById('lunchPeople').value||2);
- settings.leftovers=document.getElementById('leftovers').checked;
- for(let i=1;i<7;i++){
-  if(settings.leftovers&&menus[i-1].dinner)menus[i].lunch='leftover';
-  else if(menus[i].lunch==='leftover')menus[i].lunch='';
- }
- document.getElementById('budgetCourses').value=settings.budget;
- persist();renderMenus();renderShopping();
+function makeMenus(){
+ const days=["Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi","Dimanche"];
+ const dinnerOptions=Object.keys(recipes).filter(k=>recipes[k].type==="dinner"||recipes[k].type==="dessert");
+ const lunchOptions=Object.keys(recipes).filter(k=>recipes[k].type==="lunch");
+ $("menus").innerHTML="";
+ state.menus.slice(0,state.days).forEach((m,i)=>{
+  const d=document.createElement("div");d.className="day";
+  const options=(keys,selected)=>keys.map(k=>`<option value="${k}" ${k===selected?"selected":""}>${escapeHtml(recipes[k].name)}</option>`).join("");
+  d.innerHTML=`<strong>${days[i]}</strong>
+    <label>Dîner</label><select data-day="${i}" data-meal="dinner">${options(dinnerOptions,m.dinner)}</select>
+    <label>Déjeuner</label><select data-day="${i}" data-meal="lunch">${options(lunchOptions,m.lunch)}</select>
+    <label>Dessert facultatif</label><select data-day="${i}" data-meal="dessert"><option value="">Aucun dessert</option>${options(Object.keys(recipes).filter(k=>recipes[k].type==="dessert"),m.dessert||"")}</select>`;
+  $("menus").appendChild(d);
+ });
+ $("menus").querySelectorAll("select").forEach(sel=>sel.addEventListener("change",()=>{
+  const i=Number(sel.dataset.day),meal=sel.dataset.meal;
+  state.menus[i][meal]=sel.value;save();renderShopping();renderRecipes();
+ }));
 }
-
-function setMenu(i,type,val){
- menus[i][type]=val;
- if(type==='dinner'&&settings.leftovers&&i<6)menus[i+1].lunch=val?'leftover':'';
- persist();renderMenus();renderShopping();
-}
-
-function renderMenus(){
- document.getElementById('menuList').innerHTML=days.map((day,i)=>{
-  const report=settings.leftovers&&i>0&&menus[i].lunch==='leftover'&&menus[i-1].dinner;
-  const previous=report?recipes.find(r=>String(r.id)===String(menus[i-1].dinner)):null;
-  const extra=settings.leftovers&&i<6&&menus[i].dinner?settings.lunchPeople:0;
-  return `<div class="day">
-   <div class="daytitle">${day}</div>
-   <div class="meal"><span class="pill">☀️ Déjeuner · ${settings.lunchPeople} personnes</span>
-   ${report?`<p>♻️ Restes de ${days[i-1]} : <strong>${esc(previous?previous.name:'Repas précédent')}</strong></p><p class="muted">${settings.lunchPeople} portions prévues. Aucun achat supplémentaire.</p>`:`<select aria-label="Déjeuner ${day}" onchange="setMenu(${i},'lunch',this.value)">${recipeOptions(menus[i].lunch)}</select>`}
-   </div>
-   <div class="meal"><span class="pill">🌙 Dîner · ${settings.dinnerPeople} personnes</span>
-   ${extra?`<p class="muted">🍱 Prévoir ${settings.dinnerPeople+extra} portions, déjeuner du lendemain compris.</p>`:''}
-   <select aria-label="Dîner ${day}" onchange="setMenu(${i},'dinner',this.value)">${recipeOptions(menus[i].dinner)}</select>
-   </div></div>`;
- }).join('');
- updateBudget();
-}
-
-function randomMenus(){
- const choices=recipes.filter(r=>r.cat!=='Soupe');
- menus=days.map(()=>({lunch:String(choices[Math.floor(Math.random()*choices.length)].id),dinner:String(choices[Math.floor(Math.random()*choices.length)].id)}));
- if(settings.leftovers)for(let i=1;i<7;i++)menus[i].lunch=menus[i-1].dinner?'leftover':'';
- persist();renderMenus();renderShopping();
-}
-function clearMenus(){
- if(!confirm("Vider tous les menus ?"))return;
- menus=Array.from({length:7},()=>({lunch:"",dinner:""}));persist();renderMenus();renderShopping();
-}
-
-/* Photos d'illustration */
-function recipeImage(recipe){
- const n=recipe.name.toLowerCase();
- let id="photo-1547592180-85f173990554";
- if(/curry|couscous|dahl/.test(n))id="photo-1603894584373-5ac82b2ae398";
- else if(/bourguignon|pot-au-feu|blanquette|saucisses|rougail/.test(n))id="photo-1547592180-85f173990554";
- else if(/risotto|champignons/.test(n))id="photo-1476124369491-e7addf5db371";
- else if(/pâtes|bolognaise/.test(n))id="photo-1551183053-bf91a1d81141";
- else if(/chili|ratatouille/.test(n))id="photo-1540420773420-3366772f4999";
- else if(/paëlla|riz sauté/.test(n))id="photo-1512621776951-a57141f2eefd";
- else if(/filet mignon/.test(n))id="photo-1544025162-d76694265947";
- return "https://images.unsplash.com/"+id+"?auto=format&fit=crop&w=700&h=450&q=80";
-}
-
-function unitPrice(x){return x.u==='g'||x.u==='ml'?x.price/1000:x.price}
-function cost(x,q){return unitPrice(x)*q}
-function groupFor(name){
- const n=name.toLowerCase();
- if(/poulet|bœuf|boeuf|veau|saucisse|lardon|filet mignon|œuf/.test(n))return "Viandes et œufs";
- if(/moule|crevette|poisson/.test(n))return "Poisson";
- if(/riz|pâte|semoule|lentille|haricot|maïs|mais/.test(n))return "Féculents et légumineuses";
- if(/crème|parmesan|lait de coco/.test(n))return "Produits frais";
- if(/huile|moutarde|curry|bouillon|fond de veau|vin|sauce soja|ail/.test(n))return "Épicerie";
- return "Fruits et légumes";
-}
-
-function getShopping(){
- const items={};
- function add(id,people){
-  const r=recipes.find(x=>String(x.id)===String(id));if(!r)return;
-  r.ing.forEach(x=>{
-   const key=x.name.trim().toLocaleLowerCase('fr')+'|'+x.u;
-   if(!items[key])items[key]={name:x.name,u:x.u,q:0,price:x.price,group:groupFor(x.name)};
-   items[key].q+=x.q*people;items[key].price=x.price;
+function quantityMap(){
+ const map={};
+ const add=(key,servings)=>{
+  const r=recipes[key];if(!r)return;
+  const base=Number(r.servings)||1;
+  Object.entries(r.ingredients||{}).forEach(([name,q])=>{
+   map[name]=(map[name]||0)+Number(q)*servings/base;
   });
- }
- menus.forEach((m,i)=>{
-  if(m.dinner)add(m.dinner,settings.dinnerPeople+(settings.leftovers&&i<6?settings.lunchPeople:0));
-  const report=settings.leftovers&&i>0&&m.lunch==='leftover'&&menus[i-1].dinner;
-  if(m.lunch&&m.lunch!=='leftover'&&!report)add(m.lunch,settings.lunchPeople);
+ };
+ state.menus.slice(0,state.days).forEach((m,i)=>{
+  if(state.leftovers==="yes"&&i<state.days-1){
+   add(m.dinner,state.dinners+state.lunches);
+  }else add(m.dinner,state.dinners);
+  if(state.leftovers!=="yes"||i===state.days-1)add(m.lunch,state.lunches);
+  if(m.dessert)add(m.dessert,state.dinners);
  });
- return Object.values(items).sort((a,b)=>a.group.localeCompare(b.group,'fr')||a.name.localeCompare(b.name,'fr'));
+ return map;
 }
-
+function fmtQty(name,q){
+ if(name==="Pâte brisée"||name==="Pâte feuilletée")return `${fmt(q/250)} rouleau(x) environ`;
+ if(["Tortillas"].includes(name))return `${fmt(q)} pièce(s)`;
+ if(["Œufs"].includes(name))return `${fmt(q)} pièce(s)`;
+ return `${fmt(q)} g`;
+}
 function renderShopping(){
- const list=getShopping(),total=list.reduce((s,x)=>s+cost(x,x.q),0),budget=settings.budget||130;
- document.getElementById('shoppingTotal').textContent=fmt(total)+' €';
- document.getElementById('shoppingBar').style.width=Math.min(100,budget?total/budget*100:0)+'%';
- document.getElementById('shoppingMessage').textContent=total>budget?'⚠️ Budget dépassé de '+fmt(total-budget)+' €':'✓ Il reste '+fmt(budget-total)+' € sur le budget.';
- let last='',html='';
- if(!list.length){document.getElementById('shoppingList').innerHTML='<p class="muted">Choisis des repas dans ton menu pour générer la liste.</p>';updateBudget();return;}
- list.forEach(x=>{
-  if(x.group!==last){html+=`<tr><th colspan="4">${esc(x.group)}</th></tr>`;last=x.group;}
-  const id=x.name.toLowerCase()+'|'+x.u;
-  html+=`<tr><td><label class="checkline"><input type="checkbox" ${checkedItems.includes(id)?'checked':''} onchange="toggleItem('${encodeURIComponent(id)}',this.checked)"> ${esc(x.name)}</label></td><td>${fmt(x.q)} ${esc(x.u)}</td><td>${fmt(cost(x,x.q))} €</td><td>${fmt(x.price)} €/${x.u==='g'?'kg':x.u==='ml'?'L':'pièce'}</td></tr>`;
+ const map=quantityMap();let total=0,remaining=0;const box=$("shopping");box.innerHTML="";
+ Object.entries(groups).forEach(([group,names])=>{
+  const active=names.filter(n=>map[n]);
+  if(!active.length)return;
+  const title=document.createElement("div");title.className="group-title";title.textContent=group;box.appendChild(title);
+  active.forEach(name=>{
+   const row=document.createElement("div");row.className="item";
+   const checked=!!state.checked[name],price=Number(state.prices[name]??prices[name]??0);
+   if(!checked){total+=price;remaining++;}
+   row.innerHTML=`<input type="checkbox" aria-label="Déjà acheté" ${checked?"checked":""}><div><strong>${escapeHtml(name)}</strong><div class="qty">${fmtQty(name,map[name])}</div></div><input class="price" type="number" min="0" step=".1" aria-label="Prix de ${escapeHtml(name)}" value="${price}">`;
+   row.querySelector('input[type=checkbox]').addEventListener("change",e=>{state.checked[name]=e.target.checked;save();renderShopping();});
+   row.querySelector(".price").addEventListener("change",e=>{state.prices[name]=Math.max(0,Number(e.target.value)||0);save();renderShopping();});
+   box.appendChild(row);
+  });
  });
- document.getElementById('shoppingList').innerHTML='<div class="tablewrap"><table><thead><tr><th>Article</th><th>Quantité</th><th>Coût</th><th>Prix unitaire</th></tr></thead><tbody>'+html+'</tbody></table></div>';
- updateBudget();
+ if(!remaining)box.innerHTML='<p class="muted">Aucun produit à acheter : sélectionne des repas ou décoche les articles déjà achetés.</p>';
+ $("budgetStat").textContent=euro(state.budget);$("total").textContent=euro(total);$("remaining").textContent=remaining;
+ $("progress").style.width=(state.budget?Math.min(100,total/state.budget*100):0)+"%";
+ $("budgetMessage").textContent=total<=state.budget?"Le total estimé respecte ton budget.":"Le total estimé dépasse le budget de "+euro(total-state.budget)+".";
 }
-
-function updateBudget(){
- const total=getShopping().reduce((s,x)=>s+cost(x,x.q),0),budget=settings.budget||130;
- const value=document.getElementById('menuTotal');if(value)value.textContent=fmt(total)+' €';
- const bar=document.getElementById('budgetBar');if(bar)bar.style.width=Math.min(100,budget?total/budget*100:0)+'%';
- const msg=document.getElementById('budgetMessage');if(msg)msg.textContent=total>budget?'Budget dépassé de '+fmt(total-budget)+' €':'Il reste '+fmt(budget-total)+' €';
-}
-function syncBudget(v){settings.budget=Math.max(0,+v||0);document.getElementById('budget').value=settings.budget;persist();renderShopping()}
-function toggleItem(id,on){id=decodeURIComponent(id);checkedItems=on?[...new Set([...checkedItems,id])]:checkedItems.filter(x=>x!==id);persist()}
-function uncheckAll(){checkedItems=[];persist();renderShopping()}
-
 function renderRecipes(){
- const q=(document.getElementById('searchRecipe').value||'').toLocaleLowerCase('fr');
- const f=document.getElementById('filterRecipe').value;
- const found=recipes.filter(r=>r.name.toLocaleLowerCase('fr').includes(q)&&(!f||r.cat===f));
- if(!found.length){document.getElementById('recipeList').innerHTML='<p>Aucune recette trouvée.</p>';return;}
- document.getElementById('recipeList').innerHTML='<div class="recipe-grid">'+found.map(r=>`
- <article class="recipe">
-  <img class="recipe-photo" src="${recipeImage(r)}" alt="${esc(r.name)}" loading="lazy" onerror="this.style.display='none'">
-  <h3>${esc(r.name)}</h3>
-  <div class="recipe-meta"><span class="pill">${esc(r.cat)}</span>${r.custom?'<span class="pill">Personnalisée</span>':''}</div>
-  <p class="muted">${r.ing.length} ingrédients · ${fmt(r.ing.reduce((s,x)=>s+cost(x,x.q),0))} € par personne environ</p>
-  <details><summary>Voir les ingrédients</summary>${r.ing.map(x=>`<p>${esc(x.name)} : ${fmt(x.q)} ${esc(x.u)} · ${fmt(x.price)} €/${x.u==='g'?'kg':x.u==='ml'?'L':'pièce'}</p>`).join('')}</details>
-  <div class="actions"><button onclick="useRecipe(${r.id})">Ajouter au menu</button><button class="secondary small" onclick="editRecipe(${r.id})">Modifier</button>${r.custom?`<button class="danger small" onclick="deleteRecipe(${r.id})">Supprimer</button>`:''}</div>
- </article>`).join('')+'</div>';
+ const box=$("recipeList");box.innerHTML="";
+ Object.entries(recipes).forEach(([key,r])=>{
+  const el=document.createElement("article");el.className="recipe";
+  const kind=r.type==="dessert"?"Dessert":r.type==="lunch"?"Déjeuner":"Dîner";
+  el.innerHTML=`<h3>${escapeHtml(r.name)}</h3><span class="badge">${kind}</span>`;
+  if(r.image){
+   const img=document.createElement("img");img.src=r.image;img.alt=r.name;img.loading="lazy";
+   img.onerror=()=>{img.style.display="none";};el.appendChild(img);
+  }
+  const ing=document.createElement("ul");
+  Object.entries(r.ingredients||{}).forEach(([name,q])=>{
+   const li=document.createElement("li");li.textContent=`${name} : ${fmtQty(name,q)}`;ing.appendChild(li);
+  });
+  el.appendChild(ing);
+  const ol=document.createElement("ol");
+  (r.steps||[]).forEach(step=>{const li=document.createElement("li");li.textContent=step;ol.appendChild(li);});
+  el.appendChild(ol);
+  if(state.customRecipes[key]){
+   const del=document.createElement("button");del.className="danger";del.textContent="Supprimer";
+   del.addEventListener("click",()=>{
+    if(!confirm("Supprimer cette recette ?"))return;
+    delete recipes[key];delete state.customRecipes[key];
+    state.menus.forEach(m=>{if(m.dinner===key)m.dinner="chicken";if(m.lunch===key)m.lunch="tuna";if(m.dessert===key)m.dessert="";});
+    save();makeMenus();renderShopping();renderRecipes();
+   });
+   el.appendChild(del);
+  }
+  box.appendChild(el);
+ });
 }
-
-function parseIngredients(txt){
- return txt.split('\n').map(line=>{
-  const a=line.split(';').map(x=>x.trim());if(a.length<3||!a[0])return null;
-  const q=Number(a[1]),u=a[2],price=Number(a[3]||0);
-  if(!Number.isFinite(q)||q<0||!['g','ml','pièce','pièces','unité','cuillère'].includes(u))return null;
-  return {name:a[0],q,u:u==='pièces'?'pièce':u,price:Number.isFinite(price)?Math.max(0,price):0};
- }).filter(Boolean);
+function render(){
+ setInputs();makeMenus();renderShopping();renderRecipes();save();
 }
-function editRecipe(id){
- const r=recipes.find(x=>x.id===id);if(!r)return;
- const name=prompt('Nom de la recette :',r.name);if(name===null)return;
- const cat=prompt('Catégorie : Viande, Poulet, Poisson, Végétarien ou Soupe',r.cat);if(cat===null)return;
- const txt=prompt('Ingrédients : nom;quantité;unité;prix au kg/L ou à la pièce',r.ing.map(x=>[x.name,x.q,x.u,x.price].join(';')).join('\n'));if(txt===null)return;
- const ing=parseIngredients(txt);if(!ing.length){alert('Format invalide.');return;}
- r.name=name.trim()||r.name;r.cat=cat.trim()||r.cat;r.ing=ing;r.custom=true;
- persist();renderRecipes();renderMenus();renderShopping();
+function showPage(page){
+ document.querySelectorAll("[data-page]").forEach(el=>{
+  if(el.matches("button"))el.classList.toggle("active",el.dataset.page===page);
+  else el.classList.toggle("page-hidden",el.dataset.page!==page);
+ });
 }
-function addRecipe(){
- const name=document.getElementById('newName').value.trim(),ing=parseIngredients(document.getElementById('newIngredients').value);
- if(!name||!ing.length){alert('Indique un nom et des ingrédients valides.');return;}
- recipes.push({id:Date.now(),name,cat:document.getElementById('newCategory').value,ing,custom:true});
- document.getElementById('newName').value='';document.getElementById('newIngredients').value='';
- persist();renderRecipes();renderMenus();renderShopping();alert('Recette ajoutée.');
-}
-function deleteRecipe(id){
- const r=recipes.find(x=>x.id===id);if(!r||!confirm('Supprimer '+r.name+' ?'))return;
- recipes=recipes.filter(x=>x.id!==id);
- menus.forEach(m=>{if(String(m.lunch)===String(id))m.lunch='';if(String(m.dinner)===String(id))m.dinner='';});
- persist();renderRecipes();renderMenus();renderShopping();
-}
-function useRecipe(id){
- const i=menus.findIndex(m=>!m.dinner);
- if(i<0){alert('Tous les dîners sont remplis.');tab('menus');return;}
- menus[i].dinner=String(id);if(settings.leftovers&&i<6)menus[i+1].lunch='leftover';
- persist();renderMenus();renderShopping();tab('menus');
-}
-function exportCSV(){
- const list=getShopping();if(!list.length){alert('La liste est vide.');return;}
- const rows=[['Catégorie','Article','Quantité','Unité','Coût estimé (€)'],...list.map(x=>[x.group,x.name,x.q,x.u,cost(x,x.q).toFixed(2)])];
- const blob=new Blob(['\uFEFF'+rows.map(row=>row.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(';')).join('\r\n')],{type:'text/csv;charset=utf-8;'});
- const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='mes-courses.csv';a.click();URL.revokeObjectURL(url);
-}
-function downloadBackup(){
- const blob=new Blob([JSON.stringify({recipes,menus,settings,checkedItems},null,2)],{type:'application/json'});
- const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='mes-courses-sauvegarde.json';a.click();URL.revokeObjectURL(url);
-}
-function restoreBackup(event){
- const file=event.target.files[0];if(!file)return;
- const reader=new FileReader();
- reader.onload=()=>{try{const d=JSON.parse(reader.result);if(!d.recipes||!d.menus)throw Error();recipes=d.recipes;menus=d.menus;settings=d.settings||settings;checkedItems=d.checkedItems||[];persist();location.reload();}catch(e){alert('Fichier de sauvegarde invalide.');}};
- reader.readAsText(file);
-}
-function resetApp(){
- if(!confirm('Effacer les données locales et revenir aux recettes initiales ?'))return;
- ['mc_recipes','mc_menus','mc_settings','mc_checked'].forEach(k=>localStorage.removeItem(k));location.reload();
-}
-load();renderMenus();renderRecipes();renderShopping();
+document.querySelectorAll(".tabs button").forEach(b=>b.addEventListener("click",()=>showPage(b.dataset.page)));
+["budget","days","dinners","lunches","style","leftovers"].forEach(id=>$(id).addEventListener("change",()=>{
+ readInputs();defaults();save();makeMenus();renderShopping();
+}));
+$("generate").addEventListener("click",()=>{readInputs();defaults();save();makeMenus();renderShopping();});
+$("reset").addEventListener("click",()=>{
+ if(!confirm("Réinitialiser les menus et les paramètres ?"))return;
+ state={budget:130,days:7,dinners:3,lunches:2,style:"weight",leftovers:"yes",menus:[],checked:{},prices:{...prices},customRecipes:{}};
+ Object.keys(recipes).filter(k=>k.startsWith("custom_")).forEach(k=>delete recipes[k]);
+ defaults();render();showPage("menu");
+});
+$("uncheck").addEventListener("click",()=>{state.checked={};save();renderShopping();});
+$("copy").addEventListener("click",async()=>{
+ const map=quantityMap();const lines=["LISTE DE COURSES"];
+ Object.entries(groups).forEach(([g,names])=>{
+  const active=names.filter(n=>map[n]&&!state.checked[n]);if(!active.length)return;
+  lines.push("",g);active.forEach(n=>lines.push(`- ${n} : ${fmtQty(n,map[n])} — ${euro(Number(state.prices[n]??prices[n]??0))}`));
+ });
+ try{await navigator.clipboard.writeText(lines.join("\n"));alert("Liste copiée.");}
+ catch(e){prompt("Copie la liste ci-dessous :",lines.join("\n"));}
+});
+$("csv").addEventListener("click",()=>{
+ const map=quantityMap();const rows=[["Produit","Quantité","Prix estimé","Déjà acheté"]];
+ Object.entries(groups).forEach(([g,names])=>names.filter(n=>map[n]).forEach(n=>rows.push([n,fmtQty(n,map[n]),state.prices[n]??prices[n]??0,state.checked[n]?"Oui":"Non"])));
+ const csv="\uFEFF"+rows.map(row=>row.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(";")).join("\r\n");
+ const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv;charset=utf-8;"}));a.download="mes-courses.csv";a.click();URL.revokeObjectURL(a.href);
+});
+$("recipeForm").addEventListener("submit",e=>{
+ e.preventDefault();
+ const name=$("recipeName").value.trim(),type=$("recipeType").value;
+ const ingredients={};let bad=false;
+ $("recipeIngredients").value.split(/\r?\n/).map(x=>x.trim()).filter(Boolean).forEach(line=>{
+  const m=line.match(/^(.+?)\s*:\s*(\d+(?:[.,]\d+)?)\s*$/);
+  if(!m){bad=true;return;}
+  ingredients[m[1].trim()]=Number(m[2].replace(",","."));
+ });
+ const steps=$("recipeSteps").value.split(/\r?\n/).map(x=>x.trim()).filter(Boolean);
+ if(bad||!Object.keys(ingredients).length||!steps.length){$("recipeMessage").textContent="Vérifie les ingrédients (Nom : quantité) et les étapes.";return;}
+ const key="custom_"+Date.now().toString(36);
+ const image=$("recipeImage").value.trim();
+ const recipe={name,type,ingredients,steps,...(image?{image}:{})};
+ recipes[key]=recipe;state.customRecipes[key]=recipe;
+ if(type==="dessert"&&state.menus[0])state.menus[0].dessert=key;
+ else if(type==="lunch"&&state.menus[0])state.menus[0].lunch=key;
+ else if(state.menus[0])state.menus[0].dinner=key;
+ save();$("recipeForm").reset();$("recipeMessage").textContent="Recette enregistrée et ajoutée au premier menu.";
+ makeMenus();renderShopping();renderRecipes();
+});
+load();
+if(!state.menus||!state.menus.length)defaults();
+state.menus=state.menus.slice(0,state.days);
+while(state.menus.length<state.days)state.menus.push({dinner:"chicken",lunch:"tuna",dessert:""});
+render();
+showPage("menu");
 </script>
 </body>
 </html>
